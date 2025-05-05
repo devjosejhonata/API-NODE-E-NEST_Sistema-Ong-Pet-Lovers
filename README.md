@@ -7,8 +7,11 @@ Este repositório contém o projeto completo do **Sistema ONG Pet Lovers**, uma 
 ## 📁 Estrutura do Projeto
 
 NODE-Sistema-Ong-Pet-Lovers/
+
 ├── API-BACKEND/ # API RESTful desenvolvida com Node.js e NestJS
+
 ├── Banco-De-Dados-SQLSERVER/ # Diagramas físicos, scripts SQL e documentação do banco
+
 └── FRONTEND/ # Aplicação Angular 
 
 
