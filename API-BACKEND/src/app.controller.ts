@@ -4,6 +4,8 @@ import { Controller, Get } from '@nestjs/common';
 export class AppController {
   @Get()
   getRoot(): string {
-    return 'Sistema em Desenvolvimento - ONG Pet Lovers';
+    return 'Testando novas alterações e bug de commit';
   }
+
+  
 }
