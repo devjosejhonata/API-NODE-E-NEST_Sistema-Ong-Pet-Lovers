@@ -1,20 +1,20 @@
 {
   "compilerOptions": {
     "module": "CommonJS",
-    "target": "ES2021",                             // Recomendado para Node 18+ com bom suporte sem precisar ES2023
+    "target": "ES2021",                             
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,                        // Compatibilidade com módulos ES
+    "esModuleInterop": true,                        
     "sourceMap": true,
     "outDir": "./dist",
-    "rootDir": "./src",                             // Define claramente a pasta de origem
+    "rootDir": "./src",                             
     "baseUrl": "./",
     "incremental": true,
     "skipLibCheck": true,
-    "strict": true,                                 // Habilita todos os modos estritos de TypeScript
+    "strict": true,                                 
     "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
