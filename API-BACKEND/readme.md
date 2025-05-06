@@ -1,1 +1,3 @@
 - API EM DESENVOLVIMENTO, PROJETO BASE CRIADO, EM BREVE README MAIS ELABORADO. 
+
+** Para roda a API: npm start, rodando na porta 3000
