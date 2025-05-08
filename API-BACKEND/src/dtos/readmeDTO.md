@@ -1,0 +1,1 @@
+- Futuramente se necessário, vamos criar nessa pasta os DTOS de cada entidade
