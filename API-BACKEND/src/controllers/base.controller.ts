@@ -3,12 +3,12 @@
  - Espera que o serviço seja injetado pelos controllers filhos e que este implemente os métodos padrão.
 */
 
-import { Get, Post, Body, Param, Put, Delete } from '@nestjs/common';
+import { Get, Post, Body, Param, Put, Delete } from '@nestjs/common'; //importando os decorators do nest
 
-export abstract class BaseController<T> {
+export abstract class BaseController<T> { 
+//Essa classe pode receber diferentes tipos ao ser estendida por outro controller.
   
-  // Injeta o service correspondente à entidade que herda este controller
-  constructor(protected readonly service: any) {}
+  constructor(protected readonly service: any) {}// Injeta o service correspondente à entidade que herda este controller
 
   @Get() // Método para retornar todos os registros
   findAll(): any {

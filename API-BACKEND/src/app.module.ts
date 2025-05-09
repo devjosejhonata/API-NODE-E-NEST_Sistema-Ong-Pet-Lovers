@@ -9,9 +9,12 @@ import { EnderecoModule } from './modules/endereco.module'; // importa o módulo
     EnderecoModule, // importa o módulo de endereço
   ],
   controllers: [
-    //controllers de cada entidade:
+    //controllers de cada entidade
+    //Como o controller de endereço já está no EnderecoModule, ele não precisa ser registrado aqui.
     
   ],
-  providers: [],
+  providers: [
+    //Os services estão encapsulados dentro de seus próprios módulos
+  ],
 })
 export class AppModule {}
