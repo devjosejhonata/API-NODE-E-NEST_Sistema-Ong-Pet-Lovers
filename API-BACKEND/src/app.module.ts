@@ -1,20 +1,20 @@
 /*
-  - Esse arquivo é o módulo raiz da aplicação e vai importar os outros módulos (controllers, services, etc.).
+  - Arquivo principal de configuração do módulo da aplicação NestJS.
+  - Responsável por importar e centralizar todos os módulos usados na aplicação.
+  - Aqui é feita a configuração da conexão com o banco de dados via TypeORM e o registro dos módulos das entidades.
 */
+
 import { Module } from '@nestjs/common';
-import { EnderecoModule } from './modules/endereco.module'; // importa o módulo de endereço
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { typeOrmConfig } from './config/database.config';
+import { EnderecoModule } from './modules/endereco.module';
 
 @Module({
   imports: [
-    EnderecoModule, // importa o módulo de endereço
+    TypeOrmModule.forRoot(typeOrmConfig), // Faz a conexão com o banco de dados
+    EnderecoModule, // Importa o módulo da entidade Endereco
   ],
-  controllers: [
-    //controllers de cada entidade
-    //Como o controller de endereço já está no EnderecoModule, ele não precisa ser registrado aqui.
-    
-  ],
-  providers: [
-    //Os services estão encapsulados dentro de seus próprios módulos
-  ],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
