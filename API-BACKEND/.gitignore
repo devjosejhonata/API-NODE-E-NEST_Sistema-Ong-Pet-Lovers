@@ -3,6 +3,9 @@
 /node_modules
 /build
 
+# Ignorar pasta de configuração com dados sensíveis
+src/config/
+
 # Logs
 logs
 *.log
