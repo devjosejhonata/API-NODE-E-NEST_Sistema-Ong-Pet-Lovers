@@ -8,7 +8,13 @@ A pasta `repository` contém os arquivos responsáveis por lidar com a comunica�
   Classe genérica de repositório que implementa os métodos básicos de CRUD (`findAll`, `findById`, `create`, `update`, `delete`).  
   É utilizada como base para os repositórios específicos, reduzindo repetição de código.
 
+## Funcionalidades:
+
+- Comunicação com banco de dados;
+- Paginação dos dados na API com filtros opcionais, metodo podendo ser reutilizado por outras entidades;
+
 ## Observações:
 
 - Deve ser estendida pelos repositórios específicos de cada entidade.
 - Promove organização, reutilização e padronização no acesso a dados.
+

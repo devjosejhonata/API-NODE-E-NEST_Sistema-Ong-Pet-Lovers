@@ -23,7 +23,8 @@ API desenvolvida em **Node.js com NestJS** para gerenciamento de dados de uma ON
 
 - ✅ Estrutura modular com NestJS
 - ✅ CRUD genérico baseado em BaseController e BaseService
-- ✅ Entidade implementada: Endereco
+- ✅ Paginação dos dados retornados podento ser utilizada por qualquer entidade, implementado em base.repository e base.service e entidades.
+- ✅ Entidades implementadas: Endereco
 - ✅ Reutilização de lógica com herança de classes
 - ✅ Servidor configurado para rodar na porta 3000
 

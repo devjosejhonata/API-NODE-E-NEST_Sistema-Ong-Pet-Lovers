@@ -71,4 +71,19 @@ async remove(id: number): Promise<any> {
   };
 }
 
+// Funcionalidade de Paginação dos dados retornados da API, com filtros opcionais
+async paginate(
+  page: number = 1,
+  limit: number = 10,
+  filters?: Partial<T>
+): Promise<any> {
+  const result = await this.repository.paginate(page, limit, filters);
+  return {
+    statusCode: 200,
+    ...result,
+    message: 'Registros paginados retornados com sucesso.',
+  };
+}
+
+
 }

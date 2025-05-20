@@ -1,11 +1,8 @@
 /*
  
   - BASE REPOSITORY - Classe genérica de repositório para acesso a dados via TypeORM.
-  - Esta classe define métodos reutilizáveis e padronizados.
-
-  - Serve como uma base genérica que pode ser estendida por repositórios específicos 
-    (ex: endereco.repository.ts), evitando repetição de código.
-
+  - Esta classe define métodos reutilizáveis e padronizados. 
+  - Serve como uma base genérica que pode ser estendida por repositórios específicos (ex: endereco.repository.ts), evitando repetição de código.
   - Esta abordagem promove:
       • Organização e centralização da lógica de acesso a dados.
       • Redução de código duplicado entre repositórios.
@@ -52,5 +49,18 @@ export class BaseRepository<T extends ObjectLiteral> {
   async delete(id: number): Promise<boolean> {
     const result = await this.repository.delete({ [this.primaryKey]: id } as any); // Executa o delete pela chave primária
     return result.affected !== 0; // Retorna true se algum registro foi deletado
+  }
+
+  // Funcionalidade de Paginação dos dados retornados da API, genérica com filtros opcionais
+  async paginate(
+    page: number = 1,
+    limit: number = 10,
+    filters?: Partial<T>
+  ): Promise<{ data: T[]; total: number; page: number; limit: number }> {
+    const [data, total] = await this.repository.findAndCount({
+      where: filters as any, skip: (page - 1) * limit, take: limit,
+    });
+
+    return { data, total, page, limit, };
   }
 }

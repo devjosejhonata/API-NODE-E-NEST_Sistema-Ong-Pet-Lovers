@@ -7,9 +7,15 @@
   Herda os métodos do `BaseController` para reaproveitamento de codigo.
   Define a rota base `/enderecos`.
 
-- Buscar todos os endereços: GET http://localhost:3000/enderecos
-- Buscar um endereço especifico por id: GET http://localhost:3000/enderecos/1
-- Postar um novo endereço: POST http://localhost:3000/enderecos
-- Atualizar um endereço por id: PUT http://localhost:3000/enderecos/19
-- Deletar um endereço por id: DELETE http://localhost:3000/enderecos/19
+- GET - Página padrão (primeiros 10 registros): http://localhost:3000/enderecos
+- GET - Página 2 com 5 registros: http://localhost:3000/enderecos?page=2&limit=5
+- GET - Rota por filtro, estado, cidade, bairro: http://localhost:3000/enderecos?estado=SP
+- GET - Filtro combinado: http://localhost:3000/enderecos?estado=SP&cidade=São Paulo&page=1&limit=3
+- GET - Buscar um endereço especifico por id: http://localhost:3000/enderecos/1
+- POST - Postar um novo endereço: http://localhost:3000/enderecos
+- PUT - Atualizar um endereço por id: http://localhost:3000/enderecos/19
+- DELETE - Deletar um endereço por id: http://localhost:3000/enderecos/19
 
+
+## Funcionalidades:
+- Contém paginação dos dados retornados, ligada a base.repository e base.service;
