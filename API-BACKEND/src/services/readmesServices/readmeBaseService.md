@@ -10,7 +10,8 @@ Esta pasta contém a lógica de negócio das entidades do sistema, intermediando
 
 ## Funcionalidades:
 
-- Paginação dos dados na API com filtros opcionais, metodo podendo ser reutilizado por outras entidades;
+- Paginação dos dados na API com filtros opcionais, metodo podendo ser reutilizado por outras entidades, arquivo ligado a base.repository e controller das entidades.
+- Esse base.service contém validadões de statusCode, HttpStatus, BAD_REQUEST.
 
 ## Observações:
 - Os services devem ser responsáveis apenas pela lógica da aplicação, mantendo o controller mais limpo.

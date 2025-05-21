@@ -19,3 +19,4 @@
 - Toda a lógica de negócio relacionada a `Endereco` deve ser implementada aqui.
 - Métodos personalizados podem ser adicionados conforme a necessidade da entidade.
 - Este service consome o `EnderecoRepository`, que herda do `BaseRepository`.
+- Este service contem validações de Post e Put para Endereco, com mensagens personalizadas.
