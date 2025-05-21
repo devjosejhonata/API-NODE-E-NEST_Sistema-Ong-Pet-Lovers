@@ -9,7 +9,6 @@ A pasta controllers contém os arquivos responsáveis por lidar com as requisiç
   Deve ser estendido pelos controllers específicos de cada entidade. Novos controllers devem estender o `BaseController` para reaproveitamento de código.
 
 ## Observações:
-
 - Métodos adicionais específicos podem ser adicionados diretamente no controller de cada entidade.
 
 

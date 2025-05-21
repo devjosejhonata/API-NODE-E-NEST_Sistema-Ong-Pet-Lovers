@@ -10,6 +10,7 @@ import { Endereco } from '../models/endereco.model';
 
 @Controller('enderecos') // Define a rota base como /enderecos
 
+// Estende o controlador base genérico
 export class EnderecoController extends BaseController<Endereco> {
   
   constructor(private readonly enderecoService: EnderecoService) {

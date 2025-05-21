@@ -12,10 +12,9 @@ API desenvolvida em **Node.js com NestJS** para gerenciamento de dados de uma ON
 - src/
 - ├── config/           # Configurações gerais da aplicação (ex: banco)
 - ├── controllers/      # Camada que recebe e responde às requisições HTTP
-- ├── dtos/             # (A ser implementado) - Objetos de transferência de dados
 - ├── models/           # Representação das entidades da aplicação (ex: Endereco)
 - ├── modules/          # Organização dos módulos da aplicação (ex: EnderecoModule)
-- ├── repository/       # (A ser implementado) - Comunicação com banco de dados
+- ├── repository/       # Comunicação com banco de dados
 - ├── services/         # Camada de lógica de negócio (ex: EnderecoService)
 - ├── utils/            # Funções auxiliares
 
@@ -30,13 +29,12 @@ API desenvolvida em **Node.js com NestJS** para gerenciamento de dados de uma ON
 
 # 🛠 Tecnologias utilizadas:
 
-- Node.js
-- NestJS
-- Typescript
+- Node.js ("versão: v22.15.0")
+- NestJS (versão: "11.0.7")
+- Typescript (versão: "^5.7.3")
+- TypeORM: (versão: "^0.3.23")
 
 # 📌 Próximos passos:
-
-- 🔄 Integração com banco de dados (SQL Server)
 - ➕ Novas entidades (Adotante, Pet, Adoção, etc.)
 - 🔐 Autenticação (JWT)
 - 📦 Versionamento de API (v1, v2...)

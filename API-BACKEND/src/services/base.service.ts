@@ -2,73 +2,32 @@
  - Serviço base que contém métodos genéricos reutilizáveis por outros serviços de entidades.
 */
 export abstract class BaseService<T> {
+  Delete: any;
   constructor(private readonly repository: any) {}
 
 // Retorna todos os registros
-async findAll(): Promise<any> {
-  const data = await this.repository.findAll();
-  return {
-    message: 'Registros retornados com sucesso.',
-    statusCode: 200,
-    data,
-  };
+async findAll(): Promise<T[]> {
+  return this.repository.findAll();
 }
 
 // Retorna um registro específico por ID
-async findOne(id: number): Promise<any> {
-  const data = await this.repository.findById(id);
-  if (!data) {
-    return {
-      statusCode: 404,
-      message: `Registro ${id} não encontrado.`,
-    };
-  }
-  return {
-    statusCode: 200,
-    data,
-    message: `Registro ${id} retornado com sucesso.`,
-  };
+async findOne(id: number): Promise<T | null> {
+  return this.repository.findById(id);
 }
 
 // Cria um novo registro
-async create(data: T): Promise<any> {
-  const createdData = await this.repository.create(data);
-  return {
-    statusCode: 201,
-    data: createdData,
-    message: 'Registro criado com sucesso.',
-  };
+async create(data: T): Promise<T> {
+  return this.repository.create(data);
 }
 
 // Atualiza um registro existente
-async update(id: number, data: T): Promise<any> {
-  const updated = await this.repository.update(id, data);
-  if (!updated) {
-    return {
-      statusCode: 404,
-      message: `Registro ${id} não encontrado para atualização.`,
-    };
-  }
-  return {
-    statusCode: 200,
-    data: updated,
-    message: `Registro ${id} atualizado com sucesso.`,
-  };
+async update(id: number, data: T): Promise<T | null> {
+  return this.repository.update(id, data);
 }
 
 // Remove um registro
-async remove(id: number): Promise<any> {
-  const deleted = await this.repository.delete(id);
-  if (!deleted) {
-    return {
-      statusCode: 404,
-      message: `Registro ${id} não encontrado para remoção.`,
-    };
-  }
-  return {
-    statusCode: 200,
-    message: `Registro ${id} removido com sucesso.`,
-  };
+async remove(id: number): Promise<boolean> {
+  return this.repository.delete(id);
 }
 
 // Funcionalidade de Paginação dos dados retornados da API, com filtros opcionais
