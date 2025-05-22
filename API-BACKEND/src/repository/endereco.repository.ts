@@ -1,6 +1,7 @@
 
 /*
   - Este repositório específico lida com operações da entidade Endereco.
+  - O EnderecoRepository é um repositório customizado que estende um repositório genérico, promovendo reutilização de lógica de acesso a dados.
   - Ele estende a funcionalidade genérica provida pelo BaseRepository.
 */
 

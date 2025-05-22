@@ -4,8 +4,8 @@ A pasta models/ tem como objetivo armazenar modelos de dados, ou seja, as repres
 
 ## Arquivos atuais:
 
-- **endereco.model.ts**  
-  Modelo da entidade `Endereco`. Define os atributos da tabela `enderecos` utilizados na aplicação.
+- **endereco.model.ts** : Modelo da entidade `Endereco`. Define os atributos da tabela `enderecos` utilizados na aplicação.
+- **abrigo.model.ts** : Modelo da entidade `Abrigo`. Define os atributos da tabela `abrigo` utilizados na aplicação.
 
 ## Observações:
 - Cada modelo deve refletir a estrutura da respectiva tabela no banco de dados.

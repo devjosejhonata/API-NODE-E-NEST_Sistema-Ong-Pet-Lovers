@@ -12,6 +12,7 @@ Esta pasta contém a lógica de negócio das entidades do sistema, intermediando
 
 - Paginação dos dados na API com filtros opcionais, metodo podendo ser reutilizado por outras entidades, arquivo ligado a base.repository e controller das entidades.
 - Esse base.service contém validadões de statusCode, HttpStatus, BAD_REQUEST.
+- O arquivo base.service contém validações para serem reaproveitadas por outras entidades, para campos semelhantes de cada entidade, como nomeAbrigo, nomeAdmin, emailAbrigo, emailAdmin etc;
 
 ## Observações:
 - Os services devem ser responsáveis apenas pela lógica da aplicação, mantendo o controller mais limpo.

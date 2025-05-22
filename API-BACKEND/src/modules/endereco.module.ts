@@ -1,7 +1,6 @@
 /*
  - Módulo responsável por encapsular e registrar o EnderecoController, EnderecoService e EnderecoRepository.
  - Permite organização e modularização do código da entidade Endereco.
- - O EnderecoRepository é um repositório customizado que estende um repositório genérico, promovendo reutilização de lógica de acesso a dados.
 */
 
 

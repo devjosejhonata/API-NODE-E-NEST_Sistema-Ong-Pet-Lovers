@@ -5,14 +5,19 @@
 */
 
 import { Module } from '@nestjs/common';
+
 import { TypeOrmModule } from '@nestjs/typeorm';
+
 import { typeOrmConfig } from './config/database.config';
+
 import { EnderecoModule } from './modules/endereco.module';
+import { AbrigoModule } from './modules/abrigo.module'; 
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(typeOrmConfig), // Faz a conexão com o banco de dados
     EnderecoModule, // Importa o módulo da entidade Endereco
+    AbrigoModule,   // Importa o módulo da entidade Abrigo
   ],
   controllers: [],
   providers: [],

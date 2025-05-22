@@ -53,10 +53,19 @@ async create(data: T): Promise<any> {
   }
 }
 
-// Atualiza um registro existente
-async update(id: number, data: T): Promise<any> {
+/// Atualiza um registro existente com os dados fornecidos (parciais ou completos)
+async update(id: number, data: Partial<T>): Promise<any> {
   try {
     const updated = await this.repository.update(id, data);
+
+    if (!updated) {
+      return {
+        statusCode: HttpStatus.NOT_FOUND,
+        message: 'Registro não encontrado.',
+        data: null,
+      };
+    }
+
     return {
       statusCode: HttpStatus.OK,
       message: 'Registro atualizado com sucesso.',
@@ -66,13 +75,14 @@ async update(id: number, data: T): Promise<any> {
     throw new HttpException(
       {
         statusCode: HttpStatus.BAD_REQUEST,
-        message: 'Bad Request Exception',
+        message: 'Erro ao atualizar o registro.',
         errors: error.response?.message || error.message || 'Erro desconhecido',
       },
       HttpStatus.BAD_REQUEST,
     );
   }
 }
+
 
 // Remove um registro
 async remove(id: number): Promise<any> {
@@ -86,7 +96,7 @@ async remove(id: number): Promise<any> {
   };
 }
 
-// Funcionalidade de Paginação dos dados retornados da API, com filtros opcionais
+// Paginação / Funcionalidade de Paginação dos dados retornados da API, com filtros opcionais
 async paginate(
   page: number = 1,
   limit: number = 10,
@@ -98,6 +108,42 @@ async paginate(
     ...result,
     message: 'Registros paginados retornados com sucesso.',
   };
+}
+
+// VALIDAÇÕES REUTILIZAVEIS
+// Validação para campos de nome (ex: nomeAbrigo, nomeAdmin, nomeAdotante, nomePet), deve ser reaproveitada pelas entidades
+protected validateNome(field: string, value: string, errors: string[]) {
+  if (!value || typeof value !== 'string' || value.trim().length === 0) {
+    errors.push(`Campo "${field}" é obrigatório.`);
+  } else if (value.length > 100) {
+    errors.push(`Campo "${field}" deve ter no máximo 100 caracteres.`);
+  }
+}
+
+// Validação para campos de email (ex: emailAbrigo, emailAdmin, emailAdotante), deve ser reaproveitada pelas entidades
+protected validateEmail(field: string, value: string, errors: string[]) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!value || typeof value !== 'string' || value.trim().length === 0) {
+    errors.push(`Campo "${field}" é obrigatório.`);
+  } else if (!emailRegex.test(value)) {
+    errors.push(`Campo "${field}" deve conter um e-mail válido.`);
+  } else if (value.length > 150) {
+    errors.push(`Campo "${field}" deve ter no máximo 150 caracteres.`);
+  }
+}
+
+// Validação para campos de celular (ex: celularAbrigo, celularAdmin, celularAdotante), deve ser reaproveitada pelas entidades
+protected validateCelular(field: string, value: string, errors: string[]) {
+  const celularRegex = /^\(?\d{2}\)?[\s-]?\d{4,5}-?\d{4}$/;
+
+  if (!value || typeof value !== 'string' || value.trim().length === 0) {
+    errors.push(`Campo "${field}" é obrigatório.`);
+  } else if (!celularRegex.test(value)) {
+    errors.push(`Campo "${field}" deve conter um número de celular válido (ex: (11) 91234-5678).`);
+  } else if (value.length > 20) {
+    errors.push(`Campo "${field}" deve ter no máximo 20 caracteres.`);
+  }
 }
 
 

@@ -12,6 +12,7 @@ A pasta `repository` contém os arquivos responsáveis por lidar com a comunica�
 
 - Comunicação com banco de dados;
 - Paginação dos dados na API com filtros opcionais, metodo podendo ser reutilizado por outras entidades;
+- validação para retorno dos dados de relacionamentos.
 
 ## Observações:
 
