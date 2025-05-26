@@ -23,14 +23,14 @@ export class BaseRepository<T extends ObjectLiteral> {
     private readonly primaryKey: keyof T // nome do campo da chave primária
   ) {}
   
-  // Retorna todos os registros da entidade
+  // METODO: Retorna todos os registros da entidade
   async findAll(): Promise<T[]> {// Executa a consulta para listar todos os dados
     return this.repository.find({ 
       relations: this.relations // Retorna os dados da relação
     }); 
   }
 
-  // Retorna um registro da entidade com base no ID
+  // METODO: Retorna um registro da entidade com base no ID
   async findById(id: number): Promise<T | null> {
     return this.repository.findOne({
       where: { [this.primaryKey]: id } as any,// Retorna o registro com base na chave primária dinamicamente informada no construtor
@@ -38,38 +38,43 @@ export class BaseRepository<T extends ObjectLiteral> {
     });
   }
 
-  // Cria e salva um novo registro no banco de dados
+  // METODO: Cria e salva um novo registro no banco de dados
   async create(data: DeepPartial<T>): Promise<T> {
     const entity = this.repository.create(data); // Cria uma nova instância da entidade
     return this.repository.save(entity); // Persiste a entidade no banco e retorna
   }
 
-  // Atualiza um registro existente com os novos dados fornecidos
+  // METODO: Atualiza um registro existente com os novos dados fornecidos
   async update(id: number, data: DeepPartial<T>): Promise<T | null> {
     const entity = await this.findById(id); // Busca o registro existente pelo ID
     if (!entity) return null; // Se não existir, retorna null
 
-  if ('endereco_id' in data && typeof data.endereco_id === 'number') {// Atualiza o relacionamento se for apenas o ID
-    (data as any).endereco_id = { id_endereco: data.endereco_id };
-  }
+      // Aqui Atualiza relacionamentos genéricos
+      if ('endereco_id' in data && typeof data.endereco_id === 'number') {// Atualiza o relacionamento se for apenas o ID
+        (data as any).endereco_id = { id_endereco: data.endereco_id };
+      }
+
+      if ('abrigo_id' in data && typeof data.abrigo_id === 'number') {
+        (data as any).abrigo_id = { id_abrigo: data.abrigo_id };
+      }
 
   const updatedEntity = this.repository.merge(entity, data); // Mescla os dados antigos com os novos
   await this.repository.save(updatedEntity); // Salva a entidade atualizada no banco
 
   return this.repository.findOne({// Recarrega a entidade com os relacionamentos atualizados
     where: { [this.primaryKey]: id } as any,
-    relations: ['endereco_id'],
+    relations: this.relations, // usa dinamicamente as relações definidas no repositório filho
   });
 
 }
 
-// Exclui um registro do banco de dados com base no ID
+// METODO: Exclui um registro do banco de dados com base no ID
 async delete(id: number): Promise<boolean> {
   const result = await this.repository.delete({ [this.primaryKey]: id } as any); // Executa o delete pela chave primária
   return result.affected !== 0; // Retorna true se algum registro foi deletado
 }
 
-// PAGINAÇÃO // Funcionalidade de Paginação dos dados retornados da API, genérica com filtros opcionais
+// METODO: Paginação, funcionalidade de Paginação dos dados retornados da API, genérica com filtros opcionais
 // retorno dos dados de relacionamento incluso em paginate, como relaçao com endereco
 async paginate(
     page: number = 1,

@@ -15,7 +15,7 @@ export class AbrigoService extends BaseService<Abrigo> {
     super(abrigoRepository);
   }
 
-  // Validações para POST e PUT
+  // METODO: Validações para POST e PUT
   private validateAbrigo(data: any): void {
     const errors: string[] = [];
 
@@ -34,39 +34,39 @@ export class AbrigoService extends BaseService<Abrigo> {
     }
   }
 
-  // VALIDAÇÃO PARA CRIAR
+  // METODO: VALIDAÇÃO PARA CRIAR
   // Sobrescreve o método create para adicionar validações
   async create(data: Abrigo): Promise<Abrigo> {
     this.validateAbrigo(data);
     return super.create(data);
   }
 
-  //VALIDAÇÃO PARA ATUALIZAR
+  // METODO: VALIDAÇÃO PARA ATUALIZAR
   // Valida somente os campos que foram enviados (parciais)
   async update(id: number, data: Partial<Abrigo>): Promise<Abrigo | null> {
-  const errors: string[] = [];
+    const errors: string[] = [];
 
-  if ('nomeAbrigo' in data) {
-    this.validateNome('nomeAbrigo', data.nomeAbrigo as string, errors);
-  }
+    if ('nomeAbrigo' in data) {
+      this.validateNome('nomeAbrigo', data.nomeAbrigo as string, errors);
+    }
 
-  if ('emailAbrigo' in data) {
-    this.validateEmail('emailAbrigo', data.emailAbrigo as string, errors);
-  }
+    if ('emailAbrigo' in data) {
+      this.validateEmail('emailAbrigo', data.emailAbrigo as string, errors);
+    }
 
-  if ('celularAbrigo' in data) {
-    this.validateCelular('celularAbrigo', data.celularAbrigo as string, errors);
-  }
+    if ('celularAbrigo' in data) {
+      this.validateCelular('celularAbrigo', data.celularAbrigo as string, errors);
+    }
 
-  if ('endereco_id' in data && typeof data.endereco_id !== 'number') {
-    errors.push('Campo "endereco_id" deve ser um número válido.');
-  }
+    if ('endereco_id' in data && typeof data.endereco_id !== 'number') {
+      errors.push('Campo "endereco_id" deve ser um número válido.');
+    }
 
-  if (errors.length > 0) {
-    throw new BadRequestException(errors);
-  }
+    if (errors.length > 0) {
+      throw new BadRequestException(errors);
+    }
 
-  return super.update(id, data);
+    return super.update(id, data);
 }
 
 }

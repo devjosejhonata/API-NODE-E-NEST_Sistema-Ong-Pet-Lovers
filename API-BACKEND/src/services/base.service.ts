@@ -146,5 +146,25 @@ protected validateCelular(field: string, value: string, errors: string[]) {
   }
 }
 
+// Validação para campos de senha (ex: senhaAdmin, senhaAdotante), deve ser reaproveitada pelas entidades
+protected validateSenha(field: string, value: string, errors: string[]) {
+  if (!value || typeof value !== 'string' || value.trim().length === 0) {
+    errors.push(`Campo "${field}" é obrigatório.`);
+  } else if (value.length < 6) {
+    errors.push(`Campo "${field}" deve conter no mínimo 6 caracteres.`);
+  } else if (value.length > 50) {
+    errors.push(`Campo "${field}" deve ter no máximo 50 caracteres.`);
+  }
+}
+
+// Validação para campos de data de cadastro (ex: dataCadastroAdmin, dataCadastroAdotante)
+protected validateDataCadastro(field: string, value: any, errors: string[]) {
+  const data = new Date(value);
+  if (!value || isNaN(data.getTime())) {
+    errors.push(`Campo "${field}" é obrigatório e deve conter uma data válida.`);
+  }
+}
+
+
 
 }
