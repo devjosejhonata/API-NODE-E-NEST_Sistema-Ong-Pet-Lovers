@@ -10,5 +10,4 @@ A pasta controllers contém os arquivos responsáveis por lidar com as requisiç
 
 ## Observações:
 - Métodos adicionais específicos podem ser adicionados diretamente no controller de cada entidade.
-
-
+- findAll ajustado para receber os parâmetros via query para tratamento de filtros opcionais de busca.

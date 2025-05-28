@@ -4,16 +4,17 @@
 */
 
 import { Get, Post, Body, Param, Put, Delete} from '@nestjs/common'; //importando os decorators do nest
+import { Query } from '@nestjs/common'; // Importar decorator Query do Nest
 import { BaseService } from '../services/base.service';
 
 export abstract class BaseController<Entity> { 
   
   constructor(protected readonly service: BaseService<Entity>) {}// Injeta o service correspondente à entidade que herda este controller
 
-// Método para retornar todos os registros
+// Método para retornar todos os registros com Paginação
 @Get()
-async findAll(): Promise<any> {
-  return this.service.findAll();
+async findAll(@Query() query: any): Promise<any> {
+  return this.service.findAll(query);
 }
 
 // Método para retornar um registro pelo ID

@@ -19,7 +19,6 @@
 - DELETE - Deletar um admin por id: http://localhost:3000/admins/1  
 
 ## Funcionalidades:
-- Suporte à paginação dos dados retornados, conectado ao `base.repository` e `base.service`.
 - Permite filtros opcionais nos seguintes campos:
   - `nomeAdmin`
   - `emailAdmin`

@@ -15,16 +15,16 @@ export class AbrigoService extends BaseService<Abrigo> {
     super(abrigoRepository);
   }
 
-  // METODO: Validações para POST e PUT
+  // METODO PARA POST: Validações obrigatorias para POST em Abrigo, herdando de base.service:
   private validateAbrigo(data: any): void {
     const errors: string[] = [];
 
-    // Validações herdadas do BaseService
+    /* Validações herdadas do BaseService */
     this.validateNome('nomeAbrigo', data.nomeAbrigo as string, errors);
     this.validateEmail('emailAbrigo', data.emailAbrigo as string, errors);
     this.validateCelular('celularAbrigo', data.celularAbrigo as string, errors);
 
-    // Validação do relacionamento com endereço
+    /* Validação do relacionamento com endereço */
     if (!data.endereco_id || typeof data.endereco_id !== 'number') {
       errors.push('Campo "endereco_id" é obrigatório e deve ser um número válido.');
     }
@@ -34,15 +34,15 @@ export class AbrigoService extends BaseService<Abrigo> {
     }
   }
 
-  // METODO: VALIDAÇÃO PARA CRIAR
-  // Sobrescreve o método create para adicionar validações
+  // METODO: Validação para criar, herdando de validadeAbrigo:
+  /* Sobrescreve o método create para adicionar validações */
   async create(data: Abrigo): Promise<Abrigo> {
     this.validateAbrigo(data);
     return super.create(data);
   }
 
-  // METODO: VALIDAÇÃO PARA ATUALIZAR
-  // Valida somente os campos que foram enviados (parciais)
+  // METODO PARA PUT: VALIDAÇÃO PARA ATUALIZAR:
+  /* Validaçoes para campos opcionais, somente os campos que foram enviados (parciais) */
   async update(id: number, data: Partial<Abrigo>): Promise<Abrigo | null> {
     const errors: string[] = [];
 

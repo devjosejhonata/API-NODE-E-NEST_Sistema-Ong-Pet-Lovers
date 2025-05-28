@@ -19,7 +19,6 @@
 - DELETE - Deletar um adotante por id: http://localhost:3000/adotantes/1  
 
 ## Funcionalidades:
-- Suporte à paginação dos dados retornados, conectado ao `base.repository` e `base.service`.
 - Permite filtros opcionais nos seguintes campos:
   - `nomeAdotante`
   - `emailAdotante`

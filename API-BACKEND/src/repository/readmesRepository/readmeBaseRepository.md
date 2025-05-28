@@ -11,8 +11,13 @@ A pasta `repository` contém os arquivos responsáveis por lidar com a comunica�
 ## Funcionalidades:
 
 - Comunicação com banco de dados;
-- Paginação dos dados na API com filtros opcionais, metodo podendo ser reutilizado por outras entidades;
 - validação para retorno dos dados de relacionamentos.
+
+- **Paginação**:
+- Paginação dos dados na API com filtros opcionais, metodo podendo ser reutilizado por outras entidades;
+- repository: | Montar e executar consulta no banco com filtros e paginação, retornar dados + total.                                                    
+- service: | Receber query da controller, extrair e validar parâmetros, chamar repository, montar resposta padrão com status, mensagens e paginação.
+- Paginação implementada dentro de findAll.
 
 ## Observações:
 

@@ -15,23 +15,23 @@ export class AdotanteService extends BaseService<Adotante> {
     super(adotanteRepository);
   }
 
-  // MÉTODO: Validação específica da entidade Adotante
+  // METODO PARA POST: Validações obrigatorias para POST em Adotante, herdando de base.service:
   private validateAdotante(data: any): void {
     const errors: string[] = [];
 
-    // Validações reutilizáveis do BaseService
+    /* Validações reutilizáveis do BaseService */
     this.validateNome('nomeAdotante', data.nomeAdotante as string, errors);
     this.validateEmail('emailAdotante', data.emailAdotante as string, errors);
     this.validateCelular('celularAdotante', data.celularAdotante as string, errors);
     this.validateSenha('senhaAdotante', data.senhaAdotante as string, errors);
     this.validateDataCadastro('dataCadastroAdotante', data.dataCadastroAdotante as Date, errors);
 
-    // RG: Validação específica da entidade: RG
+    /* RG: Validação específica da entidade: RG */
     if (!data.rgAdotante || typeof data.rgAdotante !== 'string' || data.rgAdotante.trim().length < 5) {
       errors.push('Campo "rgAdotante" é obrigatório e deve conter ao menos 5 caracteres.');
     }
 
-    // Validação de relacionamento
+    /* Validação de relacionamento */
     if (!data.endereco_id || typeof data.endereco_id !== 'number') {
       errors.push('Campo "endereco_id" é obrigatório e deve ser um número válido.');
     }
@@ -41,13 +41,15 @@ export class AdotanteService extends BaseService<Adotante> {
     }
   }
 
-  // MÉTODO: CRIAR, chamando validações do metodo validateAdmin, devem ser obrigatorios
+  // METODO: Validação para criar, herdando de validadeAdotante:
+  /* Sobrescreve o método create para adicionar validações */
   async create(data: Adotante): Promise<Adotante> {
     this.validateAdotante(data);
     return super.create(data);
   }
 
-  // MÉTODO: ATUALIZAR
+  // METODO PARA PUT: VALIDAÇÃO PARA ATUALIZAR:
+  /* Validaçoes para campos opcionais, somente os campos que foram enviados (parciais) */
   async update(id: number, data: Partial<Adotante>): Promise<Adotante | null> {
     const errors: string[] = [];
 

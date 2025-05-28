@@ -9,17 +9,34 @@ export abstract class BaseService<T> {
   Delete: any;
   constructor(private readonly repository: any) {}
 
-// Retorna todos os registros
-async findAll(): Promise<any> {
-  const data = await this.repository.findAll();
+// METODO: Retorna todos os registros, Deve ser retornado com Paginação:
+/* Tratamento de retorno para Filtros opcionais aqui dentro. */
+async findAll(query?: any): Promise<any> {
+
+  /* Extrai filtros e paginação do query */
+  const { page = 1, limit = 10, ...filters } = query;
+
+  /*Converte page e limit para number*/ 
+  const pageNumber = Number(page);
+  const limitNumber = Number(limit);
+
+  /* Chama repository com filtros e paginação */ 
+  const [data, total] = await this.repository.findAll(filters, pageNumber, limitNumber);
+
   return {
     statusCode: HttpStatus.OK,
     message: 'Registros retornados com sucesso.',
     data,
+    paginacao: {
+      total,
+      limit: limitNumber,
+      page: pageNumber,
+    },
   };
 }
 
-// Retorna um registro específico por ID
+
+// METODO: Retorna um registro específico por ID:
 async findOne(id: number): Promise<any> {
   const data = await this.repository.findById(id);
   if (!data) {
@@ -32,7 +49,7 @@ async findOne(id: number): Promise<any> {
   };
 }
 
-// Cria um novo registro
+// METODO: Cria um novo registro:
 async create(data: T): Promise<any> {
   try {
     const created = await this.repository.create(data);
@@ -53,7 +70,7 @@ async create(data: T): Promise<any> {
   }
 }
 
-/// Atualiza um registro existente com os dados fornecidos (parciais ou completos)
+// METODO: Atualiza um registro existente com os dados fornecidos (parciais ou completos): 
 async update(id: number, data: Partial<T>): Promise<any> {
   try {
     const updated = await this.repository.update(id, data);
@@ -84,7 +101,7 @@ async update(id: number, data: Partial<T>): Promise<any> {
 }
 
 
-// Remove um registro
+// METODO: Remove um registro:
 async remove(id: number): Promise<any> {
   const deleted = await this.repository.delete(id);
   if (!deleted) {
@@ -96,22 +113,9 @@ async remove(id: number): Promise<any> {
   };
 }
 
-// Paginação / Funcionalidade de Paginação dos dados retornados da API, com filtros opcionais
-async paginate(
-  page: number = 1,
-  limit: number = 10,
-  filters?: Partial<T>
-): Promise<any> {
-  const result = await this.repository.paginate(page, limit, filters);
-  return {
-    statusCode: 200,
-    ...result,
-    message: 'Registros paginados retornados com sucesso.',
-  };
-}
+// METODOS DE: VALIDAÇÕES REUTILIZAVEIS:
 
-// VALIDAÇÕES REUTILIZAVEIS
-// Validação para campos de nome (ex: nomeAbrigo, nomeAdmin, nomeAdotante, nomePet), deve ser reaproveitada pelas entidades
+/* Validação para campos de nome (ex: nomeAbrigo, nomeAdmin, nomeAdotante, nomePet), deve ser reaproveitada pelas entidades */
 protected validateNome(field: string, value: string, errors: string[]) {
   if (!value || typeof value !== 'string' || value.trim().length === 0) {
     errors.push(`Campo "${field}" é obrigatório.`);
@@ -120,7 +124,7 @@ protected validateNome(field: string, value: string, errors: string[]) {
   }
 }
 
-// Validação para campos de email (ex: emailAbrigo, emailAdmin, emailAdotante), deve ser reaproveitada pelas entidades
+/* Validação para campos de email (ex: emailAbrigo, emailAdmin, emailAdotante), deve ser reaproveitada pelas entidades */
 protected validateEmail(field: string, value: string, errors: string[]) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -133,7 +137,7 @@ protected validateEmail(field: string, value: string, errors: string[]) {
   }
 }
 
-// Validação para campos de celular (ex: celularAbrigo, celularAdmin, celularAdotante), deve ser reaproveitada pelas entidades
+/* Validação para campos de celular (ex: celularAbrigo, celularAdmin, celularAdotante), deve ser reaproveitada pelas entidades */
 protected validateCelular(field: string, value: string, errors: string[]) {
   const celularRegex = /^\(?\d{2}\)?[\s-]?\d{4,5}-?\d{4}$/;
 
@@ -146,7 +150,7 @@ protected validateCelular(field: string, value: string, errors: string[]) {
   }
 }
 
-// Validação para campos de senha (ex: senhaAdmin, senhaAdotante), deve ser reaproveitada pelas entidades
+/* Validação para campos de senha (ex: senhaAdmin, senhaAdotante), deve ser reaproveitada pelas entidades */
 protected validateSenha(field: string, value: string, errors: string[]) {
   if (!value || typeof value !== 'string' || value.trim().length === 0) {
     errors.push(`Campo "${field}" é obrigatório.`);
@@ -157,14 +161,12 @@ protected validateSenha(field: string, value: string, errors: string[]) {
   }
 }
 
-// Validação para campos de data de cadastro (ex: dataCadastroAdmin, dataCadastroAdotante)
+/* Validação para campos de data de cadastro (ex: dataCadastroAdmin, dataCadastroAdotante) */
 protected validateDataCadastro(field: string, value: any, errors: string[]) {
   const data = new Date(value);
   if (!value || isNaN(data.getTime())) {
     errors.push(`Campo "${field}" é obrigatório e deve conter uma data válida.`);
   }
 }
-
-
 
 }

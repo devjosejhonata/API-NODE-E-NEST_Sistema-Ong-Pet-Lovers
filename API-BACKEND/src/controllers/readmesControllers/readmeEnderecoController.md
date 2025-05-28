@@ -18,4 +18,4 @@
 
 
 ## Funcionalidades:
-- Contém paginação dos dados retornados, ligada a base.repository e base.service;
+- Sem funcionalidade extra.

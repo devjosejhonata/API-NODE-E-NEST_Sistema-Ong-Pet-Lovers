@@ -15,23 +15,23 @@ export class AdminService extends BaseService<Admin> {
     super(adminRepository);
   }
 
-  // MÉTODO: Validação específica da entidade Admin
+  // METODO PARA POST: Validações obrigatorias para POST em Admin, herdando de base.service:
   private validateAdmin(data: any): void {
     const errors: string[] = [];
 
-    // Validações reutilizáveis do BaseService
+    /* Validações reutilizáveis do BaseService */
     this.validateNome('nomeAdmin', data.nomeAdmin as string, errors);
     this.validateEmail('emailAdmin', data.emailAdmin as string, errors);
     this.validateCelular('celularAdmin', data.celularAdmin as string, errors);
     this.validateSenha('senhaAdmin', data.senhaAdmin as string, errors);
     this.validateDataCadastro('dataCadastroAdmin', data.dataCadastroAdmin as Date, errors);
 
-    // STATUS, Validação específica da entidade Admin
+    /* STATUS, Validação específica da entidade Admin */
     if (data.statusAdmin === undefined || data.statusAdmin === null || typeof data.statusAdmin !== 'boolean') {
       errors.push('Campo "statusAdmin" é obrigatório e deve ser do tipo booleano (true ou false).');
     }
 
-    // Validação dos relacionamentos
+    /* Validação dos relacionamentos */
     if (!data.endereco_id || typeof data.endereco_id !== 'number') {
       errors.push('Campo "endereco_id" é obrigatório e deve ser um número válido.');
     }
@@ -44,13 +44,15 @@ export class AdminService extends BaseService<Admin> {
     }
   }
 
-  // MÉTODO: CRIAR, chamando validações do metodo validateAdmin, devem ser obrigatorios
+  // METODO: Validação para criar, herdando de validadeAdmin:
+  /* Sobrescreve o método create para adicionar validações */
   async create(data: Admin): Promise<Admin> {
     this.validateAdmin(data);
     return super.create(data);
   }
 
-  // MÉTODO: ATUALIZAR
+  // METODO PARA PUT: VALIDAÇÃO PARA ATUALIZAR:
+  /* Validaçoes para campos opcionais, somente os campos que foram enviados (parciais) */
   async update(id: number, data: Partial<Admin>): Promise<Admin | null> {
     const errors: string[] = [];
 

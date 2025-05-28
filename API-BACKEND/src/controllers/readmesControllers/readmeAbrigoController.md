@@ -17,5 +17,4 @@
 - DELETE - Deletar um abrigo por id: http://localhost:3000/abrigos/19
 
 ## Funcionalidades:
-- Contém paginação dos dados retornados, ligada à base.repository e base.service.
 - Permite filtros opcionais nos campos `nomeAbrigo`, `emailAbrigo` e `celularAbrigo`.
