@@ -4,6 +4,7 @@
 */
 
 import { HttpException, HttpStatus } from '@nestjs/common';
+import * as bcrypt from 'bcrypt'; /* para segurança das senhas salvas */
 
 export abstract class BaseService<T> {
   Delete: any;
@@ -11,6 +12,7 @@ export abstract class BaseService<T> {
 
 // METODO: Retorna todos os registros, Deve ser retornado com Paginação:
 /* Tratamento de retorno para Filtros opcionais aqui dentro. */
+/* Segurança nas senhas implementada aqui. */
 async findAll(query?: any): Promise<any> {
 
   /* Extrai filtros e paginação do query */
@@ -26,7 +28,7 @@ async findAll(query?: any): Promise<any> {
   return {
     statusCode: HttpStatus.OK,
     message: 'Registros retornados com sucesso.',
-    data,
+    data: this.sanitizePasswords(data), /* limpa campo senha */
     paginacao: {
       total,
       limit: limitNumber,
@@ -35,8 +37,8 @@ async findAll(query?: any): Promise<any> {
   };
 }
 
-
 // METODO: Retorna um registro específico por ID:
+/* Segurança nas senhas implementada aqui. */
 async findOne(id: number): Promise<any> {
   const data = await this.repository.findById(id);
   if (!data) {
@@ -45,14 +47,19 @@ async findOne(id: number): Promise<any> {
   return {
     statusCode: HttpStatus.OK,
     message: `Registro ${id} retornado com sucesso.`,
-    data,
+    data: this.sanitizePasswords(data), /* limpa campo senha */
   };
 }
 
 // METODO: Cria um novo registro:
+/* Segurança nas senhas implementada aqui. */
 async create(data: T): Promise<any> {
   try {
+
+    await this.hashPasswordIfPresent(data); /* aplica hash antes de salvar */
+
     const created = await this.repository.create(data);
+
     return {
       statusCode: HttpStatus.CREATED,
       message: 'Registro criado com sucesso.',
@@ -71,8 +78,12 @@ async create(data: T): Promise<any> {
 }
 
 // METODO: Atualiza um registro existente com os dados fornecidos (parciais ou completos): 
+/* Segurança nas senhas implementada aqui. */
 async update(id: number, data: Partial<T>): Promise<any> {
   try {
+
+    await this.hashPasswordIfPresent(data); /* aplica hash se for atualização de senha */
+
     const updated = await this.repository.update(id, data);
 
     if (!updated) {
@@ -114,7 +125,6 @@ async remove(id: number): Promise<any> {
 }
 
 // METODOS DE: VALIDAÇÕES REUTILIZAVEIS:
-
 /* Validação para campos de nome (ex: nomeAbrigo, nomeAdmin, nomeAdotante, nomePet), deve ser reaproveitada pelas entidades */
 protected validateNome(field: string, value: string, errors: string[]) {
   if (!value || typeof value !== 'string' || value.trim().length === 0) {
@@ -167,6 +177,29 @@ protected validateDataCadastro(field: string, value: any, errors: string[]) {
   if (!value || isNaN(data.getTime())) {
     errors.push(`Campo "${field}" é obrigatório e deve conter uma data válida.`);
   }
+}
+
+//METODO: Para hashear a senha, criar criptografia, segurança nas senhas:
+protected async hashPasswordIfPresent(data: any): Promise<void> {
+  const senhaKey = Object.keys(data).find(key => key.toLowerCase().includes('senha'));
+  if (senhaKey && typeof data[senhaKey] === 'string') {
+    const saltOrRounds = 10;
+    data[senhaKey] = await bcrypt.hash(data[senhaKey], saltOrRounds);
+  }
+}
+
+//MÉTODOS: Para ocultar a senha nos retornos (GET), segurança nas senhas:
+private sanitizePasswords(data: any): any {
+  if (Array.isArray(data)) { return data.map(obj => this.cleanPasswordField(obj)); }
+  return this.cleanPasswordField(data);
+}
+
+private cleanPasswordField(obj: any): any {
+  const newObj = { ...obj };
+  for (const key of Object.keys(newObj)) {
+    if (key.toLowerCase().includes('senha')) { newObj[key] = ''; /*ou null*/ }
+  }
+  return newObj;
 }
 
 }
