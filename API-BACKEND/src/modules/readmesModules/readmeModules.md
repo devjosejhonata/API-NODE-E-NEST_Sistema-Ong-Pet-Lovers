@@ -16,6 +16,9 @@ Esta pasta contém os módulos da aplicação, que agrupam e organizam os compon
 - **admin.module.ts**  
   Registra o controller e o service relacionados à entidade `Admin`.
 
+- **adotante.module.ts**  
+  Registra o controller e o service relacionados à entidade `Adotante`.
+
 ## Observações:
 - Cada entidade deverá ter seu próprio módulo.
 - Os módulos ajudam a manter a aplicação modular e escalável, seguindo o padrão do NestJS.

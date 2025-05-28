@@ -12,6 +12,7 @@ import { typeOrmConfig } from './config/database.config';
 import { EnderecoModule } from './modules/endereco.module';
 import { AbrigoModule } from './modules/abrigo.module';
 import { AdminModule } from './modules/admin.module'; 
+import { AdotanteModule } from './modules/adotante.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { AdminModule } from './modules/admin.module';
     EnderecoModule, // Importa o módulo da entidade Endereco
     AbrigoModule,   // Importa o módulo da entidade Abrigo
     AdminModule,    // Importa o módulo da entidade Admin
+    AdotanteModule, // Importa o módulo da entidade Adotante
   ],
   controllers: [],
   providers: [],

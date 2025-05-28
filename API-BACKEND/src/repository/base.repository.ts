@@ -15,11 +15,10 @@ import { Repository, ObjectLiteral, DeepPartial, FindManyOptions } from 'typeorm
 // Classe genérica BaseRepository, onde T é uma entidade do TypeORM
 export class BaseRepository<T extends ObjectLiteral> {
 
-  // Atributo opcional para armazenar relações
-  protected relations: string[] = [];
+  protected relations: string[] = [];// Atributo opcional para armazenar relações
 
-  constructor(// Injeta o repositório da entidade específica no construtor
-    protected readonly repository: Repository<T>,
+  constructor(
+    protected readonly repository: Repository<T>,// Injeta o repositório da entidade específica no construtor
     private readonly primaryKey: keyof T // nome do campo da chave primária
   ) {}
   
@@ -49,8 +48,9 @@ export class BaseRepository<T extends ObjectLiteral> {
     const entity = await this.findById(id); // Busca o registro existente pelo ID
     if (!entity) return null; // Se não existir, retorna null
 
-      // Aqui Atualiza relacionamentos genéricos
-      if ('endereco_id' in data && typeof data.endereco_id === 'number') {// Atualiza o relacionamento se for apenas o ID
+      // Aqui atualiza relacionamentos genéricos, usados por entidades com esses relacionamentos.
+      // Obs: Se no futuro uma nova entidade tiver outro relacionamento, basta adicionar um if semelhante a este trecho no método update().
+      if ('endereco_id' in data && typeof data.endereco_id === 'number') {
         (data as any).endereco_id = { id_endereco: data.endereco_id };
       }
 
