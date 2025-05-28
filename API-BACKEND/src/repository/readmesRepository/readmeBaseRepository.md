@@ -14,10 +14,14 @@ A pasta `repository` contém os arquivos responsáveis por lidar com a comunica�
 - validação para retorno dos dados de relacionamentos.
 
 - **Paginação**:
-- Paginação dos dados na API com filtros opcionais, metodo podendo ser reutilizado por outras entidades;
-- repository: | Montar e executar consulta no banco com filtros e paginação, retornar dados + total.                                                    
-- service: | Receber query da controller, extrair e validar parâmetros, chamar repository, montar resposta padrão com status, mensagens e paginação.
+- Paginação dos dados na API, metodo podendo ser reutilizado por outras entidades, implementado também em base.service.ts;
+- repository: | Montar e executar consulta no banco, retornar dados + total.                                                    
 - Paginação implementada dentro de findAll.
+
+- **Busca por filtros**:
+- Código ajustado em findAll para busca por filtros como Data e Nome;
+- Implementado aqui em base.repository e base.service;
+- Estou utilizando o QueryBuilder para suporte a filtros mais avançados como collation, REPLACE, ou LIKE com transformação. 
 
 ## Observações:
 

@@ -13,10 +13,13 @@ Esta pasta contém a lógica de negócio das entidades do sistema, intermediando
 - O arquivo base.service contém validações para serem reaproveitadas por outras entidades, para campos semelhantes de cada entidade, como nomeAbrigo, nomeAdmin, emailAbrigo, emailAdmin etc e etc;
 
 - **Paginação**:
-- Paginação dos dados na API com filtros opcionais, metodo podendo ser reutilizado por outras entidades, implementado tambem em base.repository.
-- repository: | Montar e executar consulta no banco com filtros e paginação, retornar dados + total.                                                 
+- Paginação dos dados na API, metodo podendo ser reutilizado por outras entidades, implementado tambem em base.repository.                                                 
 - service: | Receber query da controller, extrair e validar parâmetros, chamar repository, montar resposta padrão com status, mensagens e paginação.
 - Paginação implementada dentro de findAll.
+
+- **Busca por filtros**:
+- Código ajustado em findAll para busca por filtros como Data e Nome;
+- Implementado aqui em base.service e tambem em base.repository;
 
 - **segurança das senhas**
 - uso do bcrypt para gerar hash das senhas salvas no banco: npm install bcrypt

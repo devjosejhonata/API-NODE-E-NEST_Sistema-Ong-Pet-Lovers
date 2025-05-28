@@ -9,8 +9,7 @@
       • Facilidade de manutenção e escalabilidade no projeto.
 */
 
-
-import { Repository, ObjectLiteral, DeepPartial, FindManyOptions, Between } from 'typeorm'; // Importações necessárias do TypeORM
+import { Repository, ObjectLiteral, DeepPartial, } from 'typeorm'; // Importações necessárias do TypeORM
 
 // Classe genérica BaseRepository, onde T é uma entidade do TypeORM
 export class BaseRepository<T extends ObjectLiteral> {
@@ -21,29 +20,42 @@ export class BaseRepository<T extends ObjectLiteral> {
     protected readonly repository: Repository<T>,// Injeta o repositório da entidade específica no construtor
     private readonly primaryKey: keyof T // nome do campo da chave primária
   ) {}
-  
-  // METODO: Retorna todos os registros da entidade, com Paginação:
-  /* Tratamento de retorno para Filtros opcionais aqui dentro. */
-  async findAll(filters?: Partial<T>, page?: number, limit?: number): Promise<[T[], number]> {
-      const where: any = {};
 
-      if (filters) {
-        for (const [key, value] of Object.entries(filters)) {
-          if (
-            typeof value === 'string' && key.toLowerCase().includes('data') && /^\d{4}-\d{2}-\d{2}$/.test(value)
-          ) {
-            where[key] = Between(`${value}T00:00:00.000Z`, `${value}T23:59:59.999Z`);
-          } else {
-            where[key] = value;
-          }
+  // METODO: Retorna todos os registros da entidade, com Paginação:
+  /* Tratamento de retorno para Filtros opcionais aqui dentro, como Data e Nome. */
+  async findAll(filters?: Partial<T>, page?: number, limit?: number): Promise<[T[], number]> {
+    
+    const alias = 'entidade';
+    const query = this.repository 
+      .createQueryBuilder(alias)
+      .leftJoinAndSelect(`${alias}.endereco_id`, 'endereco')
+      .leftJoinAndSelect(`${alias}.abrigo_id`, 'abrigo');
+
+    /* Filtragem */
+    if (filters) {
+      for (const [key, value] of Object.entries(filters)) {
+        const lowerKey = key.toLowerCase();
+
+        /* filtro por nome */
+        if (lowerKey.includes('nome')) 
+          { query.andWhere( `REPLACE(${alias}.${key}, ' ', '') COLLATE Latin1_General_CI_AI LIKE :${key}`, { [key]: `%${String(value).replace(/\s/g, '')}%` } );
+        
+        /* filtro por data */
+        } else if ( typeof value === 'string' && lowerKey.includes('data') && /^\d{4}-\d{2}-\d{2}$/.test(value)) {
+              query.andWhere(`${alias}.${key} BETWEEN :inicio AND :fim`, { inicio: `${value}T00:00:00.000Z`, fim: `${value}T23:59:59.999Z`, });
+        
+        /* filtros padrão (ex: id, email, etc) */
+        } else {
+            query.andWhere(`${alias}.${key} = :${key}`, { [key]: value });
         }
       }
+    }
 
-      const options: FindManyOptions<T> = { relations: this.relations, where, };
+    /* Paginação */
+    if (page && limit) { query.skip((page - 1) * limit).take(limit); }
 
-      if (page && limit) { options.skip = (page - 1) * limit; options.take = limit; }
-
-      return this.repository.findAndCount(options);
+    /* retorna os registros encontrados */
+    return query.getManyAndCount(); 
   }
 
   // METODO: Retorna um registro da entidade com base no ID:
