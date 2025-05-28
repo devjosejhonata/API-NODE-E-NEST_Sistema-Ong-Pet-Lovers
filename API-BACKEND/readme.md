@@ -24,11 +24,14 @@ API desenvolvida em **Node.js com NestJS** para gerenciamento de dados de uma ON
 - ✅ Comunicação com banco SQLServer realizada com sucesso;
 - ✅ Entidades implementadas: Endereco, Abrigo, Admin, Adotante;
 - ✅ CRUD genérico baseado em BaseController, BaseService, BaseRepository;
-- ✅ Paginação dos dados retornados podento ser utilizada por qualquer entidade, implementado em base.repository e base.service e modificando nos controllers de entidades que for implementada;
-- ✅ Validações e Tratamento de Erros implementados;
+- ✅ Paginação dos dados retornados podento ser utilizada por qualquer entidade;
+- ✅ Busca por filtros;
+- ✅ Validações e Tratamento de Erros nas requisições;
+- ✅ Segurança dos dados de senha, implementando hash com bcrypt;
 - ✅ Reutilização de códigos;
 - ✅ Separando responsabilidades;
-- ✅ Servidor configurado para rodar na porta 3000;
+- ✅ Código bem documentado;
+- ✅ Servidor rodando com sucesso;
 
 # 🛠 Tecnologias utilizadas:
 
