@@ -27,8 +27,8 @@ export class AdotanteService extends BaseService<Adotante> {
     this.validateDataCadastro('dataCadastroAdotante', data.dataCadastroAdotante as Date, errors);
 
     /* RG: Validação específica da entidade: RG */
-    if (!data.rgAdotante || typeof data.rgAdotante !== 'string' || data.rgAdotante.trim().length < 5) {
-      errors.push('Campo "rgAdotante" é obrigatório e deve conter ao menos 5 caracteres.');
+    if (!data.rgAdotante || typeof data.rgAdotante !== 'string' || data.rgAdotante.trim().length < 7) {
+      errors.push('Campo "rgAdotante" é obrigatório e deve conter ao menos 7 caracteres.');
     }
 
     /* Validação de relacionamento */

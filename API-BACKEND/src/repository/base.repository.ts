@@ -10,7 +10,7 @@
 */
 
 
-import { Repository, ObjectLiteral, DeepPartial, FindManyOptions } from 'typeorm'; // Importações necessárias do TypeORM
+import { Repository, ObjectLiteral, DeepPartial, FindManyOptions, Between } from 'typeorm'; // Importações necessárias do TypeORM
 
 // Classe genérica BaseRepository, onde T é uma entidade do TypeORM
 export class BaseRepository<T extends ObjectLiteral> {
@@ -24,16 +24,25 @@ export class BaseRepository<T extends ObjectLiteral> {
   
   // METODO: Retorna todos os registros da entidade, com Paginação:
   /* Tratamento de retorno para Filtros opcionais aqui dentro. */
-  async findAll(
-          filters?: Partial<T>, page?: number, limit?: number
-      ): Promise<[T[], number]> {  // retorna array de entidades + total
-          const options: FindManyOptions<T> = {
-            relations: this.relations, where: filters || {},
-      };
+  async findAll(filters?: Partial<T>, page?: number, limit?: number): Promise<[T[], number]> {
+      const where: any = {};
 
-      if (page && limit) {
-          options.skip = (page - 1) * limit; options.take = limit;
+      if (filters) {
+        for (const [key, value] of Object.entries(filters)) {
+          if (
+            typeof value === 'string' && key.toLowerCase().includes('data') && /^\d{4}-\d{2}-\d{2}$/.test(value)
+          ) {
+            where[key] = Between(`${value}T00:00:00.000Z`, `${value}T23:59:59.999Z`);
+          } else {
+            where[key] = value;
+          }
+        }
       }
+
+      const options: FindManyOptions<T> = { relations: this.relations, where, };
+
+      if (page && limit) { options.skip = (page - 1) * limit; options.take = limit; }
+
       return this.repository.findAndCount(options);
   }
 
