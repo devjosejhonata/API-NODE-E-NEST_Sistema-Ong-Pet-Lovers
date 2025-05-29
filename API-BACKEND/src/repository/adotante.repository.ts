@@ -7,6 +7,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { DataSource } from 'typeorm';
 import { Adotante } from '../models/adotante.model';
 import { BaseRepository } from './base.repository';
 
@@ -15,8 +16,9 @@ export class AdotanteRepository extends BaseRepository<Adotante> {
   constructor(
     @InjectRepository(Adotante) // Injeta o repositório da entidade Adotante fornecido pelo TypeORM
     adotanteOrmRepository: Repository<Adotante>,
+    dataSource: DataSource, 
   ) {
-    super(adotanteOrmRepository, 'id_adotante'); // Define o nome da chave primária da entidade
+    super(adotanteOrmRepository, dataSource, 'id_adotante'); // Define o nome da chave primária da entidade
 
     this.relations = ['endereco_id']; // Define os relacionamentos que devem ser carregados automaticamente
   }

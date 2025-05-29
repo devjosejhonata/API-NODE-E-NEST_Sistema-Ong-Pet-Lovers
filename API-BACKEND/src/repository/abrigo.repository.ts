@@ -8,6 +8,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { DataSource } from 'typeorm';
 import { Abrigo } from '../models/abrigo.model';
 import { BaseRepository } from './base.repository';
 
@@ -16,8 +17,9 @@ export class AbrigoRepository extends BaseRepository<Abrigo> {
   constructor(
     @InjectRepository(Abrigo) // Injeta o repositório da entidade Abrigo fornecido pelo TypeORM
     abrigoOrmRepository: Repository<Abrigo>,
+    dataSource: DataSource, 
   ) {
-    super(abrigoOrmRepository, 'id_abrigo'); // Chama o construtor da classe base, passando o repositório injetado e o nome da chave primária da entidade
+    super(abrigoOrmRepository, dataSource, 'id_abrigo'); // Chama o construtor da classe base, passando o repositório injetado e o nome da chave primária da entidade
 
     this.relations = ['endereco_id'];// Define as relações que devem ser carregadas automaticamente (relação com endereco)
   }

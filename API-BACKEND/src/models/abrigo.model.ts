@@ -21,7 +21,8 @@ export class Abrigo {
   @Column({ type: 'varchar', length: 20, unique: true })
   celularAbrigo!: string;
 
-  @OneToOne(() => Endereco, { eager: true }) // Carregar endereço completo junto com o abrigo
+  @OneToOne(() => Endereco) 
   @JoinColumn({ name: 'endereco_id' })
   endereco_id!: Endereco;
 }
+

@@ -7,6 +7,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { DataSource } from 'typeorm';
 import { Admin } from '../models/admin.model';
 import { BaseRepository } from './base.repository';
 
@@ -15,8 +16,9 @@ export class AdminRepository extends BaseRepository<Admin> {
   constructor(
     @InjectRepository(Admin) // Injeta o repositório da entidade Admin fornecido pelo TypeORM
     adminOrmRepository: Repository<Admin>,
+    dataSource: DataSource, 
   ) {
-    super(adminOrmRepository, 'id_admin'); // Define o nome da chave primária da entidade
+    super(adminOrmRepository, dataSource, 'id_admin'); // Define o nome da chave primária da entidade
 
     this.relations = ['endereco_id', 'abrigo_id']; // Define os relacionamentos que devem ser carregados automaticamente
   }

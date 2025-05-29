@@ -30,7 +30,7 @@ export class Adotante {
   @CreateDateColumn({ type: 'datetime', name: 'dataCadastroAdotante', default: () => 'GETDATE()', })
   dataCadastroAdotante!: Date;
 
-  @OneToOne(() => Endereco, { eager: true }) //relacionamento com Endereço
+  @OneToOne(() => Endereco) 
   @JoinColumn({ name: 'endereco_id' })
   endereco_id!: Endereco;
 }

@@ -9,7 +9,7 @@
       • Facilidade de manutenção e escalabilidade no projeto.
 */
 
-import { Repository, ObjectLiteral, DeepPartial, } from 'typeorm'; // Importações necessárias do TypeORM
+import { Repository, ObjectLiteral, DeepPartial, DataSource } from 'typeorm'; // Importações necessárias do TypeORM
 
 // Classe genérica BaseRepository, onde T é uma entidade do TypeORM
 export class BaseRepository<T extends ObjectLiteral> {
@@ -18,6 +18,7 @@ export class BaseRepository<T extends ObjectLiteral> {
 
   constructor(
     protected readonly repository: Repository<T>,// Injeta o repositório da entidade específica no construtor
+    protected readonly dataSource: DataSource,
     private readonly primaryKey: keyof T // nome do campo da chave primária
   ) {}
 
@@ -25,13 +26,28 @@ export class BaseRepository<T extends ObjectLiteral> {
   /* Tratamento de retorno para Filtros opcionais aqui dentro, como Data e Nome. */
   async findAll(filters?: Partial<T>, page?: number, limit?: number): Promise<[T[], number]> {
     
+    /** Verificando as relações e exibindo dados corretamente **/
     const alias = 'entidade';
-    const query = this.repository 
-      .createQueryBuilder(alias)
-      .leftJoinAndSelect(`${alias}.endereco_id`, 'endereco')
-      .leftJoinAndSelect(`${alias}.abrigo_id`, 'abrigo');
+    const query = this.repository.createQueryBuilder(alias); 
 
-    /* Filtragem */
+    const relations = this.repository.metadata.relations.map(r => r.propertyName);
+
+    if (relations.includes('abrigo_id')) {/* Join do abrigo e seu endereco */
+          query.leftJoinAndSelect(`${alias}.abrigo_id`, 'abrigo');
+
+          const abrigoMetadata = this.dataSource.getMetadata('Abrigo');
+          const abrigoRelations = abrigoMetadata.relations.map((r) => r.propertyName);
+
+          if (abrigoRelations.includes('endereco_id')) {/* Join do próprio endereco da entidade */
+            query.leftJoinAndSelect(`abrigo.endereco_id`, 'enderecoAbrigo'); 
+          }
+    }
+
+    if (relations.includes('endereco_id')) {
+          query.leftJoinAndSelect(`${alias}.endereco_id`, 'endereco');
+    }
+
+    /** Filtragem **/
     if (filters) {
       for (const [key, value] of Object.entries(filters)) {
         const lowerKey = key.toLowerCase();
@@ -51,18 +67,38 @@ export class BaseRepository<T extends ObjectLiteral> {
       }
     }
 
-    /* Paginação */
+    /** Paginação **/
     if (page && limit) { query.skip((page - 1) * limit).take(limit); }
 
-    /* retorna os registros encontrados */
+    /** retorna os registros encontrados **/
     return query.getManyAndCount(); 
   }
 
   // METODO: Retorna um registro da entidade com base no ID:
   async findById(id: number): Promise<T | null> {
-    return this.repository.findOne({
-      where: { [this.primaryKey]: id } as any, relations: this.relations, 
-    });
+
+    /** Verificando as relações e exibindo dados corretamente **/
+    const alias = 'entidade';
+    const query = this.repository.createQueryBuilder(alias).where(`${alias}.${String(this.primaryKey)} = :id`, { id });
+      
+    const relations = this.repository.metadata.relations.map(r => r.propertyName);
+   
+    if (relations.includes('abrigo_id')) {/* Join do abrigo e seu endereco */
+          query.leftJoinAndSelect(`${alias}.abrigo_id`, 'abrigo');
+
+          const abrigoMetadata = this.dataSource.getMetadata('Abrigo');
+          const abrigoRelations = abrigoMetadata.relations.map((r) => r.propertyName);
+
+          if (abrigoRelations.includes('endereco_id')) {
+            query.leftJoinAndSelect(`abrigo.endereco_id`, 'enderecoAbrigo');
+          }
+    }
+
+    if (relations.includes('endereco_id')) {/* Join do próprio endereco da entidade */
+          query.leftJoinAndSelect(`${alias}.endereco_id`, 'endereco');
+    }
+
+    return query.getOne();
   }
 
   // METODO: Cria e salva um novo registro no banco de dados: 

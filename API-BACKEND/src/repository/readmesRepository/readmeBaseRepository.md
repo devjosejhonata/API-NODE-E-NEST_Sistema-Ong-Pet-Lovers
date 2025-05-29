@@ -10,21 +10,39 @@ A pasta `repository` contém os arquivos responsáveis por lidar com a comunica�
 
 ## Funcionalidades:
 
-- Comunicação com banco de dados;
-- validação para retorno dos dados de relacionamentos.
+- Comunicação com o banco de dados utilizando o TypeORM;
+- Validação e retorno dos dados com relacionamentos definidos por entidade.
 
-- **Paginação**:
-- Paginação dos dados na API, metodo podendo ser reutilizado por outras entidades, implementado também em base.service.ts;
-- repository: | Montar e executar consulta no banco, retornar dados + total.                                                    
-- Paginação implementada dentro de findAll.
+### 🔄 Paginação:
+- Paginação implementada diretamente no método `findAll`, reutilizável por todas as entidades que estendem `BaseRepository`;
+- Também integrada ao `base.service.ts`, permitindo uso consistente nos controllers;
+- A consulta é montada via `QueryBuilder`, retornando:
+- Os registros conforme a página e limite definidos;
+- O total de registros (para cálculo de páginas no frontend).
 
-- **Busca por filtros**:
-- Código ajustado em findAll para busca por filtros como Data e Nome;
-- Implementado aqui em base.repository e base.service;
-- Estou utilizando o QueryBuilder para suporte a filtros mais avançados como collation, REPLACE, ou LIKE com transformação. 
+### 🔍 Filtros avançados:
+- O método `findAll` oferece suporte a filtros por:
+- Campos de nome (usando `REPLACE`, `COLLATE` e `LIKE`);
+- Campos de data (com filtragem por intervalo de dia completo), ignorando hora;
+- Campos padrão (ex: id, email, etc.).
+- Permite buscas avançadas graças ao uso do `QueryBuilder` do TypeORM.
 
 ## Observações:
 
-- Deve ser estendida pelos repositórios específicos de cada entidade.
-- Promove organização, reutilização e padronização no acesso a dados.
+- Este repositório genérico deve ser **estendido** pelos repositórios de cada entidade (como `AdotanteRepository`, `AdminRepository`, etc.);
+- Proporciona:
+- Reutilização de lógica comum (filtros, paginação, joins);
+- Padronização do acesso a dados;
+- Melhor organização do projeto.
+
+### 📌 Alternativa mais simples (com trade-offs):
+
+- **Caso deseje futuramente reduzir a complexidade de código no `BaseRepository`, considere**:
+- Remover o uso do `QueryBuilder`;
+- Simplificar a lógica de joins e filtros;
+- Utilizar `{ eager: true }` nos relacionamentos nos modelos;
+- **Impacto**:
+- Código mais enxuto;
+- Menor controle sobre joins e filtros personalizados;
+- Perda de flexibilidade para buscas mais complexas.
 

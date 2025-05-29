@@ -35,7 +35,7 @@ export class Admin {
   @JoinColumn({ name: 'endereco_id' })
   endereco_id!: Endereco;
 
-  @ManyToOne(() => Abrigo, { eager: true }) //relacionamento com Abrigo
+  @ManyToOne(() => Abrigo) 
   @JoinColumn({ name: 'abrigo_id' })
   abrigo_id!: Abrigo;
 }
