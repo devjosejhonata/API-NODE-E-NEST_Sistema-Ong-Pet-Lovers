@@ -33,4 +33,9 @@ export class Adotante {
   @OneToOne(() => Endereco) 
   @JoinColumn({ name: 'endereco_id' })
   endereco_id!: Endereco;
+
+  toJSON() { //para ocultar o campo senha dos relacionamentos aninhados
+    const { senhaAdotante, ...rest } = this;
+    return rest;
+  }
 }

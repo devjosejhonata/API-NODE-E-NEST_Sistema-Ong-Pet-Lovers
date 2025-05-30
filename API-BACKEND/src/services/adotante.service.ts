@@ -15,7 +15,7 @@ export class AdotanteService extends BaseService<Adotante> {
     super(adotanteRepository);
   }
 
-  // METODO PARA POST: Validações obrigatorias para POST em Adotante, herdando de base.service:
+  // METODO PARA POST: Validações obrigatorias para POST em Adotante:
   private validateAdotante(data: any): void {
     const errors: string[] = [];
 

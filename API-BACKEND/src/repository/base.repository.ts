@@ -22,29 +22,52 @@ constructor(
     private readonly primaryKey: keyof T // nome do campo da chave primária
 ) {}
 
- // METODO: Retorna todos os registros da entidade, com Paginação:
+// METODO: Retorna todos os registros da entidade, com Paginação:
 /* Tratamento de retorno para Filtros opcionais aqui dentro, como Data e Nome. */
 async findAll(filters?: Partial<T>, page?: number, limit?: number): Promise<[T[], number]> {
     
-    /** Verificando as relações e exibindo dados corretamente **/
+    /** Relacionamentos, verificando as relações e exibindo dados corretamente **/
     const alias = 'entidade';
     const query = this.repository.createQueryBuilder(alias); 
 
     const relations = this.repository.metadata.relations.map(r => r.propertyName);
 
-    if (relations.includes('abrigo_id')) {/* Join do abrigo e seu endereco */
+    if (relations.includes('endereco_id')) {/* <-- Join do próprio endereco da entidade */
+        query.leftJoinAndSelect(`${alias}.endereco_id`, 'endereco');
+    }
+
+    if (relations.includes('abrigo_id')) {/* <-- Join do abrigo e seu endereco */
           query.leftJoinAndSelect(`${alias}.abrigo_id`, 'abrigo');
 
           const abrigoMetadata = this.dataSource.getMetadata('Abrigo');
           const abrigoRelations = abrigoMetadata.relations.map((r) => r.propertyName);
 
-          if (abrigoRelations.includes('endereco_id')) {/* Join do próprio endereco da entidade */
+          if (abrigoRelations.includes('endereco_id')) {
             query.leftJoinAndSelect(`abrigo.endereco_id`, 'enderecoAbrigo'); 
+          }
+
+    }
+
+    if (relations.includes('adotante_id')) { /* <-- Join de adotante e seu endereco */
+          query.leftJoinAndSelect(`${alias}.adotante_id`, 'adotante');
+
+          const adotanteMetadata = this.dataSource.getMetadata('Adotante');
+          const adotanteRelations = adotanteMetadata.relations.map(r => r.propertyName);
+
+          if (adotanteRelations.includes('endereco_id')) {
+              query.leftJoinAndSelect(`adotante.endereco_id`, 'enderecoAdotante');
           }
     }
 
-    if (relations.includes('endereco_id')) {
-          query.leftJoinAndSelect(`${alias}.endereco_id`, 'endereco');
+    if (relations.includes('admin_id')) { /* <-- Join de admin e seu endereco */
+          query.leftJoinAndSelect(`${alias}.admin_id`, 'admin');
+
+          const adminMetadata = this.dataSource.getMetadata('Admin');
+          const adminRelations = adminMetadata.relations.map(r => r.propertyName);
+
+          if (adminRelations.includes('endereco_id')) {
+              query.leftJoinAndSelect(`admin.endereco_id`, 'enderecoAdmin');
+          }
     }
 
     /** Filtragem **/
@@ -52,10 +75,13 @@ async findAll(filters?: Partial<T>, page?: number, limit?: number): Promise<[T[]
         for (const [key, value] of Object.entries(filters)) {
           const lowerKey = key.toLowerCase();
 
-          /* filtro por nome */
-          if (lowerKey.includes('nome')) 
-              { query.andWhere( `REPLACE(${alias}.${key}, ' ', '') COLLATE Latin1_General_CI_AI LIKE :${key}`, { [key]: `%${String(value).replace(/\s/g, '')}%` } );
+          /* filtros para campos específicos */
+          if (lowerKey.includes('nome') || lowerKey === 'raca' || lowerKey === 'porte' || lowerKey === 'statusadocao' || lowerKey === 'rgadotante' || lowerKey === 'identidadePet') { 
+            
+              query.andWhere(`REPLACE(REPLACE(${alias}.${key}, ' ', ''), '-', '') COLLATE Latin1_General_CI_AI LIKE :${key}`, { [key]: `%${String(value).replace(/\s|-/g, '')}%` }
           
+          );
+      
           /* filtro por data */
           } else if ( typeof value === 'string' && lowerKey.includes('data') && /^\d{4}-\d{2}-\d{2}$/.test(value)) {
               query.andWhere(`${alias}.${key} BETWEEN :inicio AND :fim`, { inicio: `${value}T00:00:00.000Z`, fim: `${value}T23:59:59.999Z`, });
@@ -98,6 +124,29 @@ async findById(id: number): Promise<T | null> {
             query.leftJoinAndSelect(`${alias}.endereco_id`, 'endereco');
       }
 
+      if (relations.includes('adotante_id')) { /* Join de adotante e seu endereco */
+            query.leftJoinAndSelect(`${alias}.adotante_id`, 'adotante');
+
+            const adotanteMetadata = this.dataSource.getMetadata('Adotante');
+            const adotanteRelations = adotanteMetadata.relations.map(r => r.propertyName);
+
+            if (adotanteRelations.includes('endereco_id')) {
+                query.leftJoinAndSelect(`adotante.endereco_id`, 'enderecoAdotante');
+            }
+      }
+
+      if (relations.includes('admin_id')) { /* Join de admin e seu endereco */
+            query.leftJoinAndSelect(`${alias}.admin_id`, 'admin');
+
+            const adminMetadata = this.dataSource.getMetadata('Admin');
+            const adminRelations = adminMetadata.relations.map(r => r.propertyName);
+
+            if (adminRelations.includes('endereco_id')) {
+                query.leftJoinAndSelect(`admin.endereco_id`, 'enderecoAdmin');
+            }
+      }
+
+
       return query.getOne();
 }
 
@@ -124,6 +173,15 @@ async update(id: number, data: DeepPartial<T>): Promise<T | null> {
       if ('abrigo_id' in data && typeof data.abrigo_id === 'number') {
         (data as any).abrigo_id = { id_abrigo: data.abrigo_id };
       }
+
+      if ('admin_id' in data && typeof data.admin_id === 'number') {
+        (data as any).admin_id = { id_admin: data.admin_id };
+      }
+
+      if ('adotante_id' in data && typeof data.adotante_id === 'number') {
+        (data as any).adotante_id = { id_adotante: data.adotante_id };
+      }
+
 
     const updatedEntity = this.repository.merge(entity, data); /* Mescla os dados antigos com os novos */
     await this.repository.save(updatedEntity); 

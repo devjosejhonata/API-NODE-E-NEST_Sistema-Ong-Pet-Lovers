@@ -13,6 +13,7 @@ import { EnderecoModule } from './modules/endereco.module';
 import { AbrigoModule } from './modules/abrigo.module';
 import { AdminModule } from './modules/admin.module'; 
 import { AdotanteModule } from './modules/adotante.module';
+import { PetModule } from './modules/pet.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { AdotanteModule } from './modules/adotante.module';
     AbrigoModule,   // Importa o módulo da entidade Abrigo
     AdminModule,    // Importa o módulo da entidade Admin
     AdotanteModule, // Importa o módulo da entidade Adotante
+    PetModule,      // Importa o módulo da entidade Pet
   ],
   controllers: [],
   providers: [],

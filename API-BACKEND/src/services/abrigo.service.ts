@@ -15,7 +15,7 @@ export class AbrigoService extends BaseService<Abrigo> {
     super(abrigoRepository);
   }
 
-  // METODO PARA POST: Validações obrigatorias para POST em Abrigo, herdando de base.service:
+  // METODO PARA POST: Validações obrigatorias para POST em Abrigo:
   private validateAbrigo(data: any): void {
     const errors: string[] = [];
 

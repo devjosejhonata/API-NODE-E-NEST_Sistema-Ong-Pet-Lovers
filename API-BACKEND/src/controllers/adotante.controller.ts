@@ -1,7 +1,6 @@
 /*
  - Controlador responsável por lidar com as requisições HTTP da entidade Adotante.
  - Herda os métodos genéricos de BaseController e injeta o AdotanteService para as operações.
- - Inclui suporte à paginação e filtros opcionais para busca de registros.
 */
 
 import { Controller, } from '@nestjs/common';

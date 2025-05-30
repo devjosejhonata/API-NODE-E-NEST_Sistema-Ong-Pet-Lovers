@@ -1,6 +1,7 @@
 /*
  - Controlador genérico abstrato que define operações comuns para reutilização por outros controllers.
  - Espera que o serviço seja injetado pelos controllers filhos e que este implemente os métodos padrão.
+ - Inclui suporte à paginação e filtros opcionais para busca de registros.
 */
 
 import { Get, Post, Body, Param, Put, Delete} from '@nestjs/common'; //importando os decorators do nest

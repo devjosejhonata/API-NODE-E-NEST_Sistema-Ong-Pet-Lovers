@@ -31,11 +31,16 @@ export class Admin {
   @CreateDateColumn({ type: 'datetime', name: 'dataCadastroAdmin', default: () => 'GETDATE()' })
   dataCadastroAdmin!: Date;
 
-  @OneToOne(() => Endereco, { eager: true }) //relacionamento com Endereço
+  @OneToOne(() => Endereco)
   @JoinColumn({ name: 'endereco_id' })
   endereco_id!: Endereco;
 
   @ManyToOne(() => Abrigo) 
   @JoinColumn({ name: 'abrigo_id' })
   abrigo_id!: Abrigo;
+
+  toJSON() { //para ocultar o campo senha dos relacionamentos aninhados
+    const { senhaAdmin, ...rest } = this;
+    return rest;
+  }
 }

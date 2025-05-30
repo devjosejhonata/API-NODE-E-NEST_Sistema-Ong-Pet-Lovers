@@ -22,11 +22,12 @@ API desenvolvida em **Node.js com NestJS** para gerenciamento de dados de uma ON
 
 - ✅ Estrutura modular com NestJS;
 - ✅ Comunicação com banco SQLServer realizada com sucesso;
-- ✅ Entidades implementadas: Endereco, Abrigo, Admin, Adotante;
+- ✅ Entidades implementadas: Endereco, Abrigo, Admin, Adotante, Pet;
 - ✅ CRUD genérico baseado em BaseController, BaseService, BaseRepository;
 - ✅ Paginação dos dados retornados podento ser utilizada por qualquer entidade;
-- ✅ Busca por filtros;
-- ✅ Validações e Tratamento de Erros nas requisições;
+- ✅ Busca por filtros específicos;
+- ✅ Validações gerais e específicas criadas;
+- ✅ Tratamento de Erros para as requisições;
 - ✅ Segurança dos dados de senha, implementando hash com bcrypt;
 - ✅ Reutilização de códigos;
 - ✅ Separando responsabilidades;
@@ -41,7 +42,6 @@ API desenvolvida em **Node.js com NestJS** para gerenciamento de dados de uma ON
 - TypeORM: (versão: "^0.3.23")
 
 # 📌 Próximos passos:
-- ➕ Novas entidades (Pet);
 - Refatoramento e Melhorias;
 - 🔐 Autenticação (JWT);
 - 📦 Versionamento de API (v1, v2...).

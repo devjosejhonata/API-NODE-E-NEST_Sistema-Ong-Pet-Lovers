@@ -173,6 +173,14 @@ protected validateDataCadastro(field: string, value: any, errors: string[]) {
     }
 }
 
+/* Validação para campos de data de nascimento (ex: dataNascimentoPet) */
+protected validateDataNascimento(field: string, value: any, errors: string[]) {
+    const data = new Date(value);
+    if (!value || isNaN(data.getTime())) {
+        errors.push(`Campo "${field}" é obrigatório e deve conter uma data válida.`);
+    }
+}
+
 //METODO: Para hashear a senha, criar criptografia, segurança nas senhas:
 protected async hashPasswordIfPresent(data: any): Promise<void> {
     const senhaKey = Object.keys(data).find(key => key.toLowerCase().includes('senha'));

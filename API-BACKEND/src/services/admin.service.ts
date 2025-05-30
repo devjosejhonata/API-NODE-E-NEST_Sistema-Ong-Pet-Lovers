@@ -15,7 +15,7 @@ export class AdminService extends BaseService<Admin> {
     super(adminRepository);
   }
 
-  // METODO PARA POST: Validações obrigatorias para POST em Admin, herdando de base.service:
+  // METODO PARA POST: Validações obrigatorias para POST em Admin:
   private validateAdmin(data: any): void {
     const errors: string[] = [];
 

@@ -14,7 +14,7 @@ export class EnderecoService extends BaseService<Endereco> {
     super(enderecoRepository);
   }
 
-  // METODO PARA POST: Validação completa tornando todos os campos obrigatorios:
+  // METODO PARA POST: Validações específicas de Endereco, completas tornando todos os campos obrigatorios:
   async create(data: Endereco): Promise<Endereco> {
     const errors: string[] = [];
 
