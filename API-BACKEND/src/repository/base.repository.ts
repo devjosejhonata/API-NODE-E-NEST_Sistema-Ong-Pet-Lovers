@@ -1,5 +1,4 @@
 /*
- 
   - BASE REPOSITORY - Classe genérica de repositório para acesso a dados via TypeORM.
   - Esta classe define métodos reutilizáveis e padronizados. 
   - Serve como uma base genérica que pode ser estendida por repositórios específicos (ex: endereco.repository.ts), evitando repetição de código.
@@ -14,8 +13,6 @@ import { Repository, ObjectLiteral, DeepPartial, DataSource } from 'typeorm'; //
 // Classe genérica BaseRepository, onde T é uma entidade do TypeORM
 export class BaseRepository<T extends ObjectLiteral> {
 
-protected relations: string[] = [];// Atributo opcional para armazenar relações
-
 constructor(
     protected readonly repository: Repository<T>,// Injeta o repositório da entidade específica no construtor
     protected readonly dataSource: DataSource,
@@ -26,57 +23,46 @@ constructor(
 /* Tratamento de retorno para Filtros opcionais aqui dentro, como Data e Nome. */
 async findAll(filters?: Partial<T>, page?: number, limit?: number): Promise<[T[], number]> {
     
-    /** Relacionamentos, verificando as relações e exibindo dados corretamente **/
+    /*** Relacionamentos, verificando as relações e exibindo dados corretamente ***/
     const alias = 'entidade';
     const query = this.repository.createQueryBuilder(alias); 
 
+    /* --> Join do próprio endereco da entidade, relacionamento direto; (ex: entidade.endereco_id) */
     const relations = this.repository.metadata.relations.map(r => r.propertyName);
 
-    if (relations.includes('endereco_id')) {/* <-- Join do próprio endereco da entidade */
-        query.leftJoinAndSelect(`${alias}.endereco_id`, 'endereco');
+    if (relations.includes('endereco_id')) { query.leftJoinAndSelect(`${alias}.endereco_id`, 'endereco'); }
+
+    /* --> Joins aninhados, exibe a lista de relacionamentos com possíveis joins aninhados com endereco */
+    const nestedJoins = [
+        { relationName: 'abrigo_id', alias: 'abrigo', enderecoAlias: 'enderecoAbrigo' },
+        { relationName: 'adotante_id', alias: 'adotante', enderecoAlias: 'enderecoAdotante' },
+        { relationName: 'admin_id', alias: 'admin', enderecoAlias: 'enderecoAdmin' },
+    ];
+
+    for (const { relationName, alias: relAlias, enderecoAlias } of nestedJoins) {
+        if (relations.includes(relationName)) { 
+          
+            query.leftJoinAndSelect(`${alias}.${relationName}`, relAlias);
+
+            /* Verifica se a relação tem endereco_id (ex: abrigo.endereco_id) */
+            const metadata = this.dataSource.getMetadata(relAlias.charAt(0).toUpperCase() + relAlias.slice(1));
+            const subRelations = metadata.relations.map(r => r.propertyName);
+
+            if (subRelations.includes('endereco_id')) { query.leftJoinAndSelect(`${relAlias}.endereco_id`, enderecoAlias); }
+        }
     }
 
-    if (relations.includes('abrigo_id')) {/* <-- Join do abrigo e seu endereco */
-          query.leftJoinAndSelect(`${alias}.abrigo_id`, 'abrigo');
-
-          const abrigoMetadata = this.dataSource.getMetadata('Abrigo');
-          const abrigoRelations = abrigoMetadata.relations.map((r) => r.propertyName);
-
-          if (abrigoRelations.includes('endereco_id')) {
-            query.leftJoinAndSelect(`abrigo.endereco_id`, 'enderecoAbrigo'); 
-          }
-
-    }
-
-    if (relations.includes('adotante_id')) { /* <-- Join de adotante e seu endereco */
-          query.leftJoinAndSelect(`${alias}.adotante_id`, 'adotante');
-
-          const adotanteMetadata = this.dataSource.getMetadata('Adotante');
-          const adotanteRelations = adotanteMetadata.relations.map(r => r.propertyName);
-
-          if (adotanteRelations.includes('endereco_id')) {
-              query.leftJoinAndSelect(`adotante.endereco_id`, 'enderecoAdotante');
-          }
-    }
-
-    if (relations.includes('admin_id')) { /* <-- Join de admin e seu endereco */
-          query.leftJoinAndSelect(`${alias}.admin_id`, 'admin');
-
-          const adminMetadata = this.dataSource.getMetadata('Admin');
-          const adminRelations = adminMetadata.relations.map(r => r.propertyName);
-
-          if (adminRelations.includes('endereco_id')) {
-              query.leftJoinAndSelect(`admin.endereco_id`, 'enderecoAdmin');
-          }
-    }
-
-    /** Filtragem **/
+    /*** Filtragem ***/
     if (filters) {
         for (const [key, value] of Object.entries(filters)) {
           const lowerKey = key.toLowerCase();
 
           /* filtros para campos específicos */
-          if (lowerKey.includes('nome') || lowerKey === 'raca' || lowerKey === 'porte' || lowerKey === 'statusadocao' || lowerKey === 'rgadotante' || lowerKey === 'identidadePet') { 
+          if (lowerKey.includes('nome') || lowerKey.includes('celular') || 
+              lowerKey === 'raca' || lowerKey === 'porte' || lowerKey === 'statusadocao' || lowerKey === 'identidadePet' || 
+              lowerKey === 'rgadotante' ||  
+              lowerKey === 'rua' || lowerKey === 'bairro' || lowerKey === 'cidade' || lowerKey === 'numerocasa'
+              ) { 
             
               query.andWhere(`REPLACE(REPLACE(${alias}.${key}, ' ', ''), '-', '') COLLATE Latin1_General_CI_AI LIKE :${key}`, { [key]: `%${String(value).replace(/\s|-/g, '')}%` }
           
@@ -93,61 +79,44 @@ async findAll(filters?: Partial<T>, page?: number, limit?: number): Promise<[T[]
         }
     }
 
-    /** Paginação **/
+    /*** Paginação ***/
     if (page && limit) { query.skip((page - 1) * limit).take(limit); }
 
-    /** retorna os registros encontrados **/
+    /*** retorna os registros encontrados ***/
     return query.getManyAndCount(); 
 }
 
 // METODO: Retorna um registro da entidade com base no ID:
 async findById(id: number): Promise<T | null> {
 
-      /** Verificando as relações e exibindo dados corretamente **/
-      const alias = 'entidade';
-      const query = this.repository.createQueryBuilder(alias).where(`${alias}.${String(this.primaryKey)} = :id`, { id });
-        
-      const relations = this.repository.metadata.relations.map(r => r.propertyName);
-    
-      if (relations.includes('abrigo_id')) {/* Join do abrigo e seu endereco */
-            query.leftJoinAndSelect(`${alias}.abrigo_id`, 'abrigo');
+    /*** Relacionamentos, verificando as relações e exibindo dados corretamente ***/
+    const alias = 'entidade';
+    const query = this.repository.createQueryBuilder(alias).where(`${alias}.${String(this.primaryKey)} = :id`, { id });
 
-            const abrigoMetadata = this.dataSource.getMetadata('Abrigo');
-            const abrigoRelations = abrigoMetadata.relations.map((r) => r.propertyName);
+    /* --> Join do próprio endereco da entidade, relacionamento direto; (ex: entidade.endereco_id) */
+    const relations = this.repository.metadata.relations.map(r => r.propertyName);
 
-            if (abrigoRelations.includes('endereco_id')) {
-              query.leftJoinAndSelect(`abrigo.endereco_id`, 'enderecoAbrigo');
-            }
-      }
+    if (relations.includes('endereco_id')) { query.leftJoinAndSelect(`${alias}.endereco_id`, 'endereco'); }
 
-      if (relations.includes('endereco_id')) {/* Join do próprio endereco da entidade */
-            query.leftJoinAndSelect(`${alias}.endereco_id`, 'endereco');
-      }
+    /* --> Joins aninhados, exibe a lista de relacionamentos com possíveis joins aninhados com endereco (ex: entidade.abrigo_id.endereco_id) */
+    const nestedJoins = [
+        { relationName: 'abrigo_id', alias: 'abrigo', enderecoAlias: 'enderecoAbrigo' },
+        { relationName: 'adotante_id', alias: 'adotante', enderecoAlias: 'enderecoAdotante' },
+        { relationName: 'admin_id', alias: 'admin', enderecoAlias: 'enderecoAdmin' },
+    ];
 
-      if (relations.includes('adotante_id')) { /* Join de adotante e seu endereco */
-            query.leftJoinAndSelect(`${alias}.adotante_id`, 'adotante');
+    for (const { relationName, alias: relAlias, enderecoAlias } of nestedJoins) {
+        if (relations.includes(relationName)) {
+            query.leftJoinAndSelect(`${alias}.${relationName}`, relAlias);
 
-            const adotanteMetadata = this.dataSource.getMetadata('Adotante');
-            const adotanteRelations = adotanteMetadata.relations.map(r => r.propertyName);
+            const metadata = this.dataSource.getMetadata(relAlias.charAt(0).toUpperCase() + relAlias.slice(1));
+            const subRelations = metadata.relations.map(r => r.propertyName);
 
-            if (adotanteRelations.includes('endereco_id')) {
-                query.leftJoinAndSelect(`adotante.endereco_id`, 'enderecoAdotante');
-            }
-      }
+            if (subRelations.includes('endereco_id')) { query.leftJoinAndSelect(`${relAlias}.endereco_id`, enderecoAlias); }
+        }
+    }
 
-      if (relations.includes('admin_id')) { /* Join de admin e seu endereco */
-            query.leftJoinAndSelect(`${alias}.admin_id`, 'admin');
-
-            const adminMetadata = this.dataSource.getMetadata('Admin');
-            const adminRelations = adminMetadata.relations.map(r => r.propertyName);
-
-            if (adminRelations.includes('endereco_id')) {
-                query.leftJoinAndSelect(`admin.endereco_id`, 'enderecoAdmin');
-            }
-      }
-
-
-      return query.getOne();
+    return query.getOne();
 }
 
 // METODO: Cria e salva um novo registro no banco de dados: 
@@ -182,12 +151,13 @@ async update(id: number, data: DeepPartial<T>): Promise<T | null> {
         (data as any).adotante_id = { id_adotante: data.adotante_id };
       }
 
-
-    const updatedEntity = this.repository.merge(entity, data); /* Mescla os dados antigos com os novos */
+    /* --> Mescla os dados antigos com os novos */
+    const updatedEntity = this.repository.merge(entity, data); 
     await this.repository.save(updatedEntity); 
 
-    return this.repository.findOne({/* Recarrega a entidade com os relacionamentos atualizados */
-      where: { [this.primaryKey]: id } as any, relations: this.relations, 
+    /* --> Recarrega a entidade com os relacionamentos atualizados */
+    return this.repository.findOne({
+      where: { [this.primaryKey]: id } as any, relations: this.repository.metadata.relations.map(r => r.propertyName), 
     });
 
 }

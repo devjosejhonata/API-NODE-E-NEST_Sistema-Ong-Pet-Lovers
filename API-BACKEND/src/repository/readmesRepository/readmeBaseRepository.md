@@ -11,7 +11,9 @@ A pasta `repository` contém os arquivos responsáveis por lidar com a comunica�
 ## Funcionalidades:
 
 - Comunicação com o banco de dados utilizando o TypeORM;
-- Validação e retorno dos dados com relacionamentos definidos por entidade.
+- Validação e retorno dos dados definidos por entidade com relacionamentos diretos e relacionamentos aninhados.
+- Filtragem de dados para retorno;
+- Paginação;
 
 ### 🔄 Paginação:
 - Paginação implementada diretamente no método `findAll`, reutilizável por todas as entidades que estendem `BaseRepository`;
@@ -35,7 +37,7 @@ A pasta `repository` contém os arquivos responsáveis por lidar com a comunica�
 - Padronização do acesso a dados;
 - Melhor organização do projeto.
 
-### 📌 Alternativa mais simples (com trade-offs):
+### 📌 Alternativa mais simples (com trade-offs), para filtragem e relacionamentos:
 
 - **Caso deseje futuramente reduzir a complexidade de código no `BaseRepository`, considere**:
 - Remover o uso do `QueryBuilder`;
