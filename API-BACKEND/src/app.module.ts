@@ -14,6 +14,7 @@ import { AbrigoModule } from './modules/abrigo.module';
 import { AdminModule } from './modules/admin.module'; 
 import { AdotanteModule } from './modules/adotante.module';
 import { PetModule } from './modules/pet.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { PetModule } from './modules/pet.module';
     AdminModule,    // Importa o módulo da entidade Admin
     AdotanteModule, // Importa o módulo da entidade Adotante
     PetModule,      // Importa o módulo da entidade Pet
+    AuthModule      // Importa o módulo de autenticação jwt
   ],
   controllers: [],
   providers: [],

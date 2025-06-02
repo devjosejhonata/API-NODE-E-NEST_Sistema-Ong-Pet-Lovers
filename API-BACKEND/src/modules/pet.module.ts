@@ -21,5 +21,6 @@ import { Pet } from '../models/pet.model';
     PetService, // Registra o service da entidade Pet
     PetRepository, // Registra o PetRepository como provider
   ],
+  exports: [PetRepository], 
 })
 export class PetModule {}

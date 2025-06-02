@@ -8,10 +8,11 @@ import { Injectable, BadRequestException } from '@nestjs/common';
 import { BaseService } from './base.service';
 import { Adotante } from '../models/adotante.model';
 import { AdotanteRepository } from '../repository/adotante.repository';
+import { PetRepository } from '../repository/pet.repository';
 
 @Injectable()
 export class AdotanteService extends BaseService<Adotante> {
-  constructor(adotanteRepository: AdotanteRepository) {
+  constructor(adotanteRepository: AdotanteRepository, private readonly petRepository: PetRepository,) {
     super(adotanteRepository);
   }
 
@@ -81,4 +82,20 @@ export class AdotanteService extends BaseService<Adotante> {
 
     return super.update(id, data);
   }
+
+  // MÉTODO: Sobrescreve o método remove de base.service, para impedir a exclusão de adotantes com pets vinculados
+  /* Com esse metodo, mostra uma mensagem de validação informando que há adoção por esse adotante*/
+  async remove(id: number): Promise<any> {
+    const petsVinculados = await this.petRepository.findByAdotanteId(id);
+
+    if (petsVinculados.length > 0) {
+      throw new BadRequestException({
+        statusCode: 400,
+        message: `Não é possível excluir este adotante. Existem ${petsVinculados.length} pet(s) adotado(s) por ele.`,
+      });
+    }
+
+    return super.remove(id);
+  }
+
 }

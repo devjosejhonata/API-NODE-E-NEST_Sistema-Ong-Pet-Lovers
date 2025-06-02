@@ -3,10 +3,12 @@
  - Herda os métodos genéricos de BaseController e injeta o AdotanteService para as operações.
 */
 
-import { Controller, } from '@nestjs/common';
+import { Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
 import { AdotanteService } from '../services/adotante.service';
 import { BaseController } from './base.controller';
 import { Adotante } from '../models/adotante.model';
+
+import { JwtAuthGuard } from '../auth/jwt.auth.guard';
 
 @Controller('adotantes') // Define a rota base como /adotantes
 
@@ -16,5 +18,21 @@ export class AdotanteController extends BaseController<Adotante> {
   constructor(adotanteService: AdotanteService) {
     super(adotanteService); // Injeta o AdotanteService no BaseController
   }
-  
+
+  // Sobrescreve o GET de base.service, todos os adotantes.
+  /* Para tornar a rota GET protegida para dados de Adotante*/
+  @UseGuards(JwtAuthGuard)
+  @Get()
+  async findAll(@Query() query: any): Promise<any> {
+    return this.service.findAll(query);
+  }
+
+  // Sobrescreve o GET por ID de adotantes em base.service.
+  /* Para tornar a rota GET por ID de adotantes protegida para dados de Adotante*/
+  @UseGuards(JwtAuthGuard)
+  @Get(':id')
+  async findOne(@Param('id') id: number): Promise<any> {
+    return this.service.findOne(id);
+  }
+
 }

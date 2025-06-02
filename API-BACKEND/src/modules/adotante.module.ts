@@ -9,10 +9,12 @@ import { AdotanteController } from '../controllers/adotante.controller';
 import { AdotanteService } from '../services/adotante.service';
 import { AdotanteRepository } from '../repository/adotante.repository';
 import { Adotante } from '../models/adotante.model';
+import { PetModule } from './pet.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Adotante, AdotanteRepository]), // Registra a entidade e o repositório
+    PetModule,
   ],
   controllers: [
     AdotanteController, // Registra o controller da entidade Adotante
@@ -21,5 +23,6 @@ import { Adotante } from '../models/adotante.model';
     AdotanteService, // Registra o service da entidade Adotante
     AdotanteRepository, // Registra o AdotanteRepository como provider
   ],
+  
 })
 export class AdotanteModule {}

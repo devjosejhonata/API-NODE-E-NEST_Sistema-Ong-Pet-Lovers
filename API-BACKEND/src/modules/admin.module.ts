@@ -21,5 +21,6 @@ import { Admin } from '../models/admin.model';
     AdminService, // Registra o service da entidade Admin
     AdminRepository, // Registra o AdminRepository como provider
   ],
+  exports: [AdminService], 
 })
 export class AdminModule {}

@@ -21,13 +21,18 @@ Esta pasta contém a lógica de negócio das entidades do sistema, intermediando
 - Código ajustado em findAll para busca por filtros como Data e Nome;
 - Implementado aqui em base.service e tambem em base.repository;
 
-- **segurança das senhas**
+- **segurança das senhas**:
 - uso do bcrypt para gerar hash das senhas salvas no banco: npm install bcrypt
 - Senhas sendo criptografadas como sucesso.
 - Dados sendo validados antes de criar e atualizar.
 - O campo de senha sendo retornado na requisição como string vazia ("") para segurança dos dados de senha.
 - No banco de dados sendo salvo a hash da senha e não a senha original.
 - Como no banco de dados esta sendo salvo a hast da senha, e nao a senha original, o usuário tem que se atentar e salvar a senha ao criar uma nova senha.
+
+- **Autenticação JWT**:
+- Esse arquivo contém o método para autenticação com jwt.
+- Esse métododo: `findByEmail`, Busca o usuário Admin, por emailAdmin. */
+- Por enquanto implementado somente para Admin, posteriormente será para outras entidades.
 
 ## Observações:
 - Os services devem ser responsáveis apenas pela lógica da aplicação, mantendo o controller mais limpo.

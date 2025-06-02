@@ -21,5 +21,17 @@ export class PetRepository extends BaseRepository<Pet> {
 
   }
 
-  // Adicionar métodos específicos da entidade Pet, se necessário no futuro.
+ 
+//MÉTODO: Para tratamento de DELETE
+/* Aqui, é o metodo utilizado para quando tenta fazer o delete de um Adotante que já adotou algum PET*/
+/* Que consta no banco de dados vinculado a algum pet */
+async findByAdotanteId(adotanteId: number): Promise<Pet[]> {
+  return this.repository.find({
+    where: {
+      adotante_id: {
+        id_adotante: adotanteId, 
+      },
+    },
+  });
+}
 }

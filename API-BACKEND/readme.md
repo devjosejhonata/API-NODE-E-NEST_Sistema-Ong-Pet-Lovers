@@ -10,13 +10,14 @@ API desenvolvida em **Node.js com NestJS** para gerenciamento de dados de uma ON
 # 📁 Estrutura Geral da API:
 
 - src/
-- ├── config/           # Configurações gerais da aplicação (ex: banco)
-- ├── controllers/      # Camada que recebe e responde às requisições HTTP
-- ├── models/           # Representação das entidades da aplicação (ex: Endereco)
-- ├── modules/          # Organização dos módulos da aplicação (ex: EnderecoModule)
-- ├── repository/       # Comunicação com banco de dados
-- ├── services/         # Camada de lógica de negócio (ex: EnderecoService)
-- ├── utils/            # Funções auxiliares
+- ├── config/           # Configurações gerais da aplicação (ex: banco);
+- ├── auth/             # Autenticação JWT para proteção das rotas e segurança;
+- ├── controllers/      # Camada que recebe e responde às requisições HTTP;
+- ├── models/           # Representação das entidades da aplicação (ex: Endereco);
+- ├── modules/          # Organização dos módulos da aplicação (ex: EnderecoModule);
+- ├── repository/       # Comunicação com banco de dados;
+- ├── services/         # Camada de lógica de negócio (ex: EnderecoService);
+- ├── utils/            # Funções auxiliares;
 
 # ✅ Funcionalidades atuais:
 
@@ -28,10 +29,12 @@ API desenvolvida em **Node.js com NestJS** para gerenciamento de dados de uma ON
 - ✅ Busca por filtros específicos;
 - ✅ Validações gerais e específicas criadas;
 - ✅ Tratamento de Erros para as requisições;
-- ✅ Segurança dos dados de senha, implementando hash com bcrypt;
+- ✅ Segurança dos dados com senhas criptografadas, implementando hash com bcrypt;
+- ✅ Autenticação com JWT realizada;
 - ✅ Reutilização de códigos;
 - ✅ Separando responsabilidades;
-- ✅ Código bem documentado;
+- ✅ Códigos e pastas com boa documentação;
+- ✅ Testes realizados no Postman;
 - ✅ Servidor rodando com sucesso;
 
 # 🛠 Tecnologias utilizadas:
@@ -42,8 +45,9 @@ API desenvolvida em **Node.js com NestJS** para gerenciamento de dados de uma ON
 - TypeORM: (versão: "^0.3.23")
 
 # 📌 Próximos passos:
-- 🔐 Autenticação (JWT); ( EM ANDAMENTO)
-- 📦 Versionamento de API (v1, v2...).
+- 🌐 CORS habilitado: Necessário para frontend, senão, o navegador bloqueia as requisições
+- 🔐 Documentação com (Swagger) na API, /api; Facilita integração com frontend e documentação da API para outros devs;
+- 📦 Versionamento de API (v1, v2...). Permite evoluir a API sem quebrar versões existentes;
 
 # 📄 Licença:
 
