@@ -20,8 +20,6 @@ export class AdotanteRepository extends BaseRepository<Adotante> {
   ) {
     super(adotanteOrmRepository, dataSource, 'id_adotante'); // Define o nome da chave primária da entidade
 
-    this.relations = ['endereco_id']; // Define os relacionamentos que devem ser carregados automaticamente
   }
 
-  // Adicionar métodos específicos da entidade Adotante, se necessário no futuro.
 }

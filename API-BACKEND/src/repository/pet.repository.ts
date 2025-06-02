@@ -19,7 +19,6 @@ export class PetRepository extends BaseRepository<Pet> {
   ) {
     super(petOrmRepository, dataSource, 'id_pet'); // Define o nome da chave primária da entidade
 
-    this.relations = ['abrigo_id', 'adotante_id', 'admin_id']; // Relacionamentos carregados automaticamente
   }
 
   // Adicionar métodos específicos da entidade Pet, se necessário no futuro.

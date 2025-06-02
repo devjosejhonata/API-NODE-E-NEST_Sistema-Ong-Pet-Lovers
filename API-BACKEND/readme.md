@@ -42,8 +42,7 @@ API desenvolvida em **Node.js com NestJS** para gerenciamento de dados de uma ON
 - TypeORM: (versão: "^0.3.23")
 
 # 📌 Próximos passos:
-- Refatoramento e Melhorias;
-- 🔐 Autenticação (JWT);
+- 🔐 Autenticação (JWT); ( EM ANDAMENTO)
 - 📦 Versionamento de API (v1, v2...).
 
 # 📄 Licença:

@@ -21,7 +21,6 @@ export class AbrigoRepository extends BaseRepository<Abrigo> {
   ) {
     super(abrigoOrmRepository, dataSource, 'id_abrigo'); // Chama o construtor da classe base, passando o repositório injetado e o nome da chave primária da entidade
 
-    this.relations = ['endereco_id'];// Define as relações que devem ser carregadas automaticamente (relação com endereco)
   }
 
   // Adicionar métodos específicos da entidade Abrigo, se necessário no futuro.

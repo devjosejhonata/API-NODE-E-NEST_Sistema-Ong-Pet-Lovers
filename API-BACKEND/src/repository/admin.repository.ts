@@ -20,8 +20,6 @@ export class AdminRepository extends BaseRepository<Admin> {
   ) {
     super(adminOrmRepository, dataSource, 'id_admin'); // Define o nome da chave primária da entidade
 
-    this.relations = ['endereco_id', 'abrigo_id']; // Define os relacionamentos que devem ser carregados automaticamente
   }
 
-  // Adicionar métodos específicos da entidade Admin, se necessário no futuro.
 }

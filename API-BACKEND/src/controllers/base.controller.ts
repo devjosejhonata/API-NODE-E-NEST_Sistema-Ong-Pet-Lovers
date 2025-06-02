@@ -4,13 +4,12 @@
  - Inclui suporte à paginação e filtros opcionais para busca de registros.
 */
 
-import { Get, Post, Body, Param, Put, Delete} from '@nestjs/common'; //importando os decorators do nest
-import { Query } from '@nestjs/common'; // Importar decorator Query do Nest
+import { Get, Post, Body, Param, Put, Delete, Query,} from '@nestjs/common'; //importando os decorators do nest
 import { BaseService } from '../services/base.service';
 
 export abstract class BaseController<Entity> { 
-  
-  constructor(protected readonly service: BaseService<Entity>) {}// Injeta o service correspondente à entidade que herda este controller
+      
+    constructor(protected readonly service: BaseService<Entity>) {}// Injeta o service correspondente à entidade que herda este controller
 
 // Método para retornar todos os registros com Paginação
 @Get()
