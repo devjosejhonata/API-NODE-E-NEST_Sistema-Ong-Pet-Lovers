@@ -1,11 +1,6 @@
 # 🐾 API - ONG Pet Lovers
 
-API desenvolvida em **Node.js com NestJS** para gerenciamento de dados de uma ONG voltada ao cuidado e adoção de pets. Este repositório contém a estrutura backend da aplicação, com base modular, orientada a boas práticas e pronta para evoluir com persistência em banco de dados, autenticação e mais.
-
-# 🚀 Como rodar o projeto:
-
-- npm start
-- http://localhost:3000
+API desenvolvida em **Node.js com NestJS** para gerenciamento de dados de uma ONG voltada ao cuidado e adoção de pets. Este repositório contém a estrutura backend da aplicação, com base modular, orientada a boas práticas e pronta para evoluir com novas funcionalidades, integrada com banco de dados e frontend.
 
 # 📁 Estrutura Geral da API:
 
@@ -49,7 +44,14 @@ API desenvolvida em **Node.js com NestJS** para gerenciamento de dados de uma ON
 - 🔐 Documentação com (Swagger) na API, /api; Facilita integração com frontend e documentação da API para outros devs;
 - 📦 Versionamento de API (v1, v2...). Permite evoluir a API sem quebrar versões existentes;
 
-# 📄 Licença:
+## 🚧 Observações:
 
-Projeto próprio, desenvolvido de ponta a ponta unicamente por mim, josé jhonata.
+- [x] Cada pasta da API contém readmes específicos, para melhor documentar o projeto e entendimento de toda arquitetura e funcionalidades;
+- [x] Houve uma preocupação da minha parte também em inserir comentários nos arquivos do projeto, para melhor documentar, entendimento e manutenção futura;
+- [x] Rodar o projeto com o comando npm start no servidor http://localhost:3000;
+- [x] Projeto próprio, desenvolvido de ponta a ponta unicamente por mim, dev josé jhonata.
 
+# 📫 Contato:
+
+- 💼 LinkedIn: https://www.linkedin.com/in/josejhonata/
+- 📧 Email: contatojosejhonata@gmail.com

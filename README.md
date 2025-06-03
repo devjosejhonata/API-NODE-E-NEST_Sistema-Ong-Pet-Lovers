@@ -1,30 +1,57 @@
--- PROJETO EM DESENVOLVIMENTO --
+# 🐾 API - ONG Pet Lovers
 
-# 🐾 Sistema ONG Pet Lovers
+API desenvolvida em **Node.js com NestJS** para gerenciamento de dados de uma ONG voltada ao cuidado e adoção de pets. Este repositório contém a estrutura backend da aplicação, com base modular, orientada a boas práticas e pronta para evoluir com novas funcionalidades, integrada com banco de dados e frontend.
 
-Este repositório contém o projeto completo do **Sistema ONG Pet Lovers**, uma aplicação desenvolvida para facilitar o gerenciamento de abrigos, pets e processos de adoção.
+# 📁 Estrutura Geral da API:
 
-## 📁 Estrutura do Projeto
+- src/
+- ├── config/           # Configurações gerais da aplicação (ex: banco);
+- ├── auth/             # Autenticação JWT para proteção das rotas e segurança;
+- ├── controllers/      # Camada que recebe e responde às requisições HTTP;
+- ├── models/           # Representação das entidades da aplicação (ex: Endereco);
+- ├── modules/          # Organização dos módulos da aplicação (ex: EnderecoModule);
+- ├── repository/       # Comunicação com banco de dados;
+- ├── services/         # Camada de lógica de negócio (ex: EnderecoService);
+- ├── utils/            # Funções auxiliares;
 
-NODE-Sistema-Ong-Pet-Lovers/
+# ✅ Funcionalidades atuais:
 
-├── API-BACKEND/ # API RESTful desenvolvida com Node.js e NestJS
+- ✅ Estrutura modular com NestJS;
+- ✅ Comunicação com banco SQLServer realizada com sucesso;
+- ✅ Entidades implementadas: Endereco, Abrigo, Admin, Adotante, Pet;
+- ✅ CRUD genérico baseado em BaseController, BaseService, BaseRepository;
+- ✅ Paginação dos dados retornados podento ser utilizada por qualquer entidade;
+- ✅ Busca por filtros específicos;
+- ✅ Validações gerais e específicas criadas;
+- ✅ Tratamento de Erros para as requisições;
+- ✅ Segurança dos dados com senhas criptografadas, implementando hash com bcrypt;
+- ✅ Autenticação com JWT realizada;
+- ✅ Reutilização de códigos;
+- ✅ Separando responsabilidades;
+- ✅ Códigos e pastas com boa documentação;
+- ✅ Testes realizados no Postman;
+- ✅ Servidor rodando com sucesso;
 
-├── Banco-De-Dados-SQLSERVER/ # Diagramas físicos, scripts SQL e documentação do banco
+# 🛠 Tecnologias utilizadas:
 
-└── FRONTEND/ # Aplicação Angular 
+- Node.js ("versão: v22.15.0")
+- NestJS (versão: "11.0.7")
+- Typescript (versão: "^5.7.3")
+- TypeORM: (versão: "^0.3.23")
 
+# 📌 Próximos passos:
+- 🌐 CORS habilitado: Necessário para frontend, senão, o navegador bloqueia as requisições
+- 🔐 Documentação com (Swagger) na API, /api; Facilita integração com frontend e documentação da API para outros devs;
+- 📦 Versionamento de API (v1, v2...). Permite evoluir a API sem quebrar versões existentes;
 
-## 🚧 Em Desenvolvimento
+## 🚧 Observações:
 
-- [x] Modelagem e criação do banco de dados (SQL Server)
-- [ ] API Backend com Node e NestJS (Em desenvolvimento)
-- [ ] Frontend com Angular
+- [x] Cada pasta da API contém readmes específicos, para melhor documentar o projeto e entendimento de toda arquitetura e funcionalidades;
+- [x] Houve uma preocupação da minha parte também em inserir comentários nos arquivos do projeto, para melhor documentar, entendimento e manutenção futura;
+- [x] Rodar o projeto com o comando npm start no servidor http://localhost:3000;
+- [x] Projeto próprio, desenvolvido de ponta a ponta unicamente por mim, dev josé jhonata.
 
-## 📌 Objetivo
+# 📫 Contato:
 
-O projeto desenvolvido de ponta a ponta, unicamente por mim: backend, banco de dados e frontend.
-
----
-
-Em breve, serão adicionadas instruções detalhadas de uso para desenvolvedores e usuários finais.
+- 💼 LinkedIn: https://www.linkedin.com/in/josejhonata/
+- 📧 Email: contatojosejhonata@gmail.com
