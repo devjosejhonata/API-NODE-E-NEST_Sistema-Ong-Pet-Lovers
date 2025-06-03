@@ -57,3 +57,16 @@ API desenvolvida em **Node.js com NestJS** para gerenciamento de dados de uma ON
 
 - 💼 LinkedIn: https://www.linkedin.com/in/josejhonata/
 - 📧 Email: contatojosejhonata@gmail.com
+
+![Img API Pronta - img 01](https://github.com/user-attachments/assets/e8b7a4d3-9e78-4a77-84e9-ff12eed7c5e9)
+![Img API Pronta - img 02](https://github.com/user-attachments/assets/96382de0-1a44-486e-95f0-134c54a4ce99)
+![Img API Pronta - img 03](https://github.com/user-attachments/assets/9d7a8ce2-4f82-45aa-8ba6-66049c317581)
+![Img API Pronta - img 04](https://github.com/user-attachments/assets/82f31607-2285-4b7d-916a-a70f4141f6e0)
+![Img API Pronta - img 05](https://github.com/user-attachments/assets/3ec6ae92-61a8-48ed-be5e-d214acd2e4bf)
+![Img API Pronta - img 06](https://github.com/user-attachments/assets/2545e096-b97f-4c04-9081-10f368df25d3)
+![Img API Pronta - img 07](https://github.com/user-attachments/assets/760c7d93-a8b3-4a65-9936-13acf7dc3df9)
+![Img API Pronta - img 08](https://github.com/user-attachments/assets/4af667f1-8ecd-40fe-95e4-440b3a7dfc40)
+![Img API Pronta - img 09](https://github.com/user-attachments/assets/ec8c3b80-1d50-442d-a019-f01ba21f9634)
+![Img API Pronta - img 10](https://github.com/user-attachments/assets/45bed408-bf29-42a6-a48b-588efff64f40)
+![Img API Pronta - img 11](https://github.com/user-attachments/assets/57497cd8-3a7a-435a-8e79-d9da3f66bc41)
+![Img API Pronta - img 12](https://github.com/user-attachments/assets/11d0f301-a1ff-44f8-8006-b2a2cdb1fd47)
