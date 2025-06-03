@@ -30,3 +30,7 @@
   - `statusAdocao` (ex: disponivel, adotado)
   - `dataNascimentoPet` (formato ISO: `yyyy-mm-dd`)
   - `dataAdocao` (formato ISO: `yyyy-mm-dd`)
+
+## Observações:
+
+- Arquivo com decorator incluso para documentação Swagger na api.

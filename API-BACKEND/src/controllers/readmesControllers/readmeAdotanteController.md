@@ -25,3 +25,8 @@
   - `celularAdotante`
   - `rgAdotante`
   - `dataCadastroAdotante` (formato ISO: `yyyy-mm-dd`)
+- Rotas protegidas Get e Get por id, sobrescrevendo do base.controller, para segurança dos dados de Adotantes.
+
+## Observações:
+
+- Arquivo com decorator incluso para documentação Swagger na api.

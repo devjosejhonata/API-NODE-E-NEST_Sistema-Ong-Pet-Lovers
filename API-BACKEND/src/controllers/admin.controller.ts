@@ -1,6 +1,7 @@
 /*
  - Controlador responsável por lidar com as requisições HTTP da entidade Admin.
  - Herda os métodos genéricos de BaseController e injeta o AdminService para as operações.
+ - Arquivo com decorator incluso para documentação Swagger na api.
 */
 
 import { Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
@@ -10,6 +11,10 @@ import { Admin } from '../models/admin.model';
 
 import { JwtAuthGuard } from '../auth/jwt.auth.guard';
 
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+
+@ApiTags('Admins')    // Aparece como seção “Admins” no Swagger
+@ApiBearerAuth()      // Todas as rotas aqui exigem JWT
 @Controller('admins') // Define a rota base como /admins
 
 // Estende o controlador base genérico

@@ -13,3 +13,4 @@ A pasta controllers contém os arquivos responsáveis por lidar com as requisiç
 - findAll ajustado para receber os parâmetros via query para tratamento de filtros opcionais de busca.
 - A proteção de rotas, está sendo feita nesse arquivo, com **Autenticação JWT**, para: POST, PUT, DELETE, e Get e Get por id sendo rotas públicas.
 - Por enquanto implementado somente para Admin, posteriormente será para outras entidades.
+- Arquivo com decorator incluso para documentação Swagger na api.

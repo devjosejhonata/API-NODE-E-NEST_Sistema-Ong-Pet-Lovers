@@ -19,9 +19,9 @@
 - DELETE - Deletar um admin por id: http://localhost:3000/admins/1  
 
 ## Funcionalidades:
-- Permite filtros opcionais nos seguintes campos:
-  - `nomeAdmin`
-  - `emailAdmin`
-  - `celularAdmin`
-  - `statusAdmin` (booleano: `true` ou `false`)
-  - `dataCadastroAdmin` (formato ISO: `yyyy-mm-dd`)
+- Permite filtros opcionais nos seguintes campos: `nomeAdmin`, `emailAdmin`, `celularAdmin`, `statusAdmin` (booleano: `true` ou `false`), `dataCadastroAdmin` (formato ISO: `yyyy-mm-dd`)
+- Rotas protegidas Get e Get por id, sobrescrevendo do base.controller, para segurança dos dados de admins.
+
+## Observações:
+
+- Arquivo com decorator incluso para documentação Swagger na api.

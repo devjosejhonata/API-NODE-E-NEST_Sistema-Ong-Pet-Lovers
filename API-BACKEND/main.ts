@@ -1,4 +1,5 @@
 import { NestFactory } from '@nestjs/core';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './src/app.module';
 
 async function bootstrap() { /* função pra iniciar a aplicação nest */
@@ -11,6 +12,17 @@ async function bootstrap() { /* função pra iniciar a aplicação nest */
     methods: 'GET,POST,PUT,DELETE,OPTIONS',
     allowedHeaders: 'Content-Type, Authorization',
   });
+
+  // SWAGGER CONFIG
+  const config = new DocumentBuilder()
+    .setTitle('ONG Pet Lovers API')
+    .setDescription('Documentação da API para gerenciamento da ONG de pets')
+    .setVersion('1.0') /* versão atual da api */
+    .addBearerAuth() /* para habilitar JWT na interface do Swagger, para testar rotas protegidas sem precisar abrir o postman */
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document); /* --> rota documentação sagger: http://localhost:3000/api */
 
   const PORT = 3000;
   await app.listen(PORT);

@@ -4,12 +4,15 @@
  - Inclui suporte à paginação e filtros opcionais para busca de registros.
  - Utilizando Autenticação JWT nas rotas protegidas.
  - As rotas POST, PUT e DELETE estão protegidas, enquanto GETs permanecem públicos.
+ - Arquivo com decorator incluso para documentação Swagger na api.
 */
 
 import { Get, Post, Body, Param, Put, Delete, Query, UseGuards } from '@nestjs/common'; //importando os decorators do nest
 
 import { BaseService } from '../services/base.service';
 import { JwtAuthGuard } from '../auth/jwt.auth.guard';
+
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 export abstract class BaseController<Entity> { 
       
@@ -31,6 +34,7 @@ export abstract class BaseController<Entity> {
 
     // Método para criar um novo registro
     /* Rota protegida */
+    @ApiBearerAuth()
     @UseGuards(JwtAuthGuard)
     @Post()
     async create(@Body() data: any): Promise<any> {
@@ -39,6 +43,7 @@ export abstract class BaseController<Entity> {
 
     // Método para atualizar um registro pelo ID
     /* Rota protegida */
+    @ApiBearerAuth()
     @UseGuards(JwtAuthGuard)
     @Put(':id')
     async update(@Param('id') id: number, @Body() data: any): Promise<any> {
@@ -47,6 +52,7 @@ export abstract class BaseController<Entity> {
 
     // Método para excluir um registro pelo ID
     /* Rota protegida */
+    @ApiBearerAuth()
     @UseGuards(JwtAuthGuard)
     @Delete(':id')
     async remove(@Param('id') id: number): Promise<any> {

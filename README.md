@@ -26,10 +26,11 @@ API desenvolvida em **Node.js com NestJS** para gerenciamento de dados de uma ON
 - ✅ Tratamento de Erros para as requisições;
 - ✅ Segurança dos dados com senhas criptografadas, implementando hash com bcrypt;
 - ✅ Autenticação com JWT realizada;
-- ✅ Códigos e pastas com boa documentação;
 - ✅ CORS habilitado: Necessário para frontend, senão, o navegador bloqueia as requisições;
-- ✅ Reutilização de códigos;
-- ✅ Separando responsabilidades;
+- ✅ Documentação Swagger na API, através da rota /api;
+- ✅ Códigos e pastas com boa documentação;
+- ✅ Seguindo princípios de Reutilização de códigos;
+- ✅ Seguindo princípios de Separando responsabilidades;
 - ✅ Testes realizados no Postman;
 - ✅ Servidor rodando com sucesso;
 
@@ -41,13 +42,13 @@ API desenvolvida em **Node.js com NestJS** para gerenciamento de dados de uma ON
 - TypeORM: (versão: "^0.3.23")
 
 # 📌 Próximos passos:
-- 🔐 Documentação com (Swagger) na API, /api; Facilita integração com frontend e documentação da API para outros devs;
 - 📦 Versionamento de API (v1, v2...). Permite evoluir a API sem quebrar versões existentes;
 
 ## 🚧 Observações:
 
 - [x] Cada pasta da API contém readmes específicos, para melhor documentar o projeto e entendimento de toda arquitetura e funcionalidades;
-- [x] Houve uma preocupação da minha parte também em inserir comentários nos arquivos do projeto, para melhor documentar, entendimento e manutenção futura;
+- [x] A API conta com comentários em todos os arquivos, para melhor documentar, entendimento e manutenção futura;
+- [x] A API também conta com documentação Swagger, através da rota /api.
 - [x] Rodar o projeto com o comando npm start no servidor http://localhost:3000;
 - [x] Projeto próprio, desenvolvido de ponta a ponta unicamente por mim, dev josé jhonata.
 

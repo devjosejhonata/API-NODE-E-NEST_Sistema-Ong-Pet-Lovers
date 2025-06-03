@@ -18,3 +18,7 @@
 
 ## Funcionalidades:
 - Permite filtros opcionais nos campos `nomeAbrigo`, `emailAbrigo` e `celularAbrigo`.
+
+## Observações:
+
+- Arquivo com decorator incluso para documentação Swagger na api.

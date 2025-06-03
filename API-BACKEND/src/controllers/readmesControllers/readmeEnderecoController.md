@@ -19,3 +19,7 @@
 
 ## Funcionalidades:
 - Sem funcionalidade extra.
+
+## Observações:
+
+- Arquivo com decorator incluso para documentação Swagger na api.
