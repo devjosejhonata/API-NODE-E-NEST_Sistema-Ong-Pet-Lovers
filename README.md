@@ -14,7 +14,7 @@ API desenvolvida em **Node.js com NestJS** para gerenciamento de dados de uma ON
 - ├── services/         # Camada de lógica de negócio (ex: EnderecoService);
 - ├── utils/            # Funções auxiliares;
 
-# ✅ Funcionalidades atuais:
+# 📦 Funcionalidades atuais:
 
 - ✅ Estrutura modular com NestJS;
 - ✅ Comunicação com banco SQLServer realizada com sucesso;
@@ -41,10 +41,11 @@ API desenvolvida em **Node.js com NestJS** para gerenciamento de dados de uma ON
 - Typescript (versão: "^5.7.3")
 - TypeORM: (versão: "^0.3.23")
 
-# 📌 Próximos passos:
-- 📦 Versionamento de API (v1, v2...). Permite evoluir a API sem quebrar versões existentes;
+# 🚧 Próximos passos:
+- Futuramente, quando necessitar, implementar novas funcionalidades ou alterar regras existentes... Acrescentei um readme sobre versionamentos para esse projeto, dentro da pasta utils.
+- Futuramente, quando necessitar, criar o Versionamento de API (v1, v2...). Permite evoluir a API sem quebrar versões existentes;
 
-## 🚧 Observações:
+## 📌 Observações:
 
 - [x] Cada pasta da API contém readmes específicos, para melhor documentar o projeto e entendimento de toda arquitetura e funcionalidades;
 - [x] A API conta com comentários em todos os arquivos, para melhor documentar, entendimento e manutenção futura;
