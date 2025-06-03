@@ -26,9 +26,10 @@ API desenvolvida em **Node.js com NestJS** para gerenciamento de dados de uma ON
 - ✅ Tratamento de Erros para as requisições;
 - ✅ Segurança dos dados com senhas criptografadas, implementando hash com bcrypt;
 - ✅ Autenticação com JWT realizada;
+- ✅ Códigos e pastas com boa documentação;
+- ✅ CORS habilitado: Necessário para frontend, senão, o navegador bloqueia as requisições;
 - ✅ Reutilização de códigos;
 - ✅ Separando responsabilidades;
-- ✅ Códigos e pastas com boa documentação;
 - ✅ Testes realizados no Postman;
 - ✅ Servidor rodando com sucesso;
 
@@ -40,7 +41,6 @@ API desenvolvida em **Node.js com NestJS** para gerenciamento de dados de uma ON
 - TypeORM: (versão: "^0.3.23")
 
 # 📌 Próximos passos:
-- 🌐 CORS habilitado: Necessário para frontend, senão, o navegador bloqueia as requisições
 - 🔐 Documentação com (Swagger) na API, /api; Facilita integração com frontend e documentação da API para outros devs;
 - 📦 Versionamento de API (v1, v2...). Permite evoluir a API sem quebrar versões existentes;
 
